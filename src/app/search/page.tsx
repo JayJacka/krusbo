@@ -1,5 +1,5 @@
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { GroupDetail } from "./type";
+import {type GroupDetail } from "./type";
 
 export default function search() {
   const mockData = [
@@ -180,7 +180,7 @@ export default function search() {
             <ScrollArea className="flex max-h-[70vh] min-h-[70vh] flex-col gap-1">
               <div className="relative space-y-5">
                 {mockGroup.map((data) => {
-                  return <GroupCard {...data} />;
+                  return <GroupCard key={data.id} {...data} />;
                 })}
               </div>
             </ScrollArea>
