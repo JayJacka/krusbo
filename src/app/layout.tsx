@@ -1,14 +1,15 @@
 import "~/styles/globals.css";
 
-import { Inter } from "next/font/google";
+import { Bakbak_One } from "next/font/google";
 
 import { TRPCReactProvider } from "~/trpc/react";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 
-const inter = Inter({
+const bakbakOne = Bakbak_One({
 	subsets: ["latin"],
 	variable: "--font-sans",
+	weight: ["400"],
 });
 
 export const metadata = {
@@ -24,7 +25,7 @@ export default function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			<body className={`font-sans bg-black ${inter.variable}`}>
+			<body className={`font-sans bg-black ${bakbakOne.variable}`}>
 				<ClerkProvider appearance={{ baseTheme: dark }}>
 					<TRPCReactProvider>{children}</TRPCReactProvider>
 				</ClerkProvider>
