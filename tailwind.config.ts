@@ -23,14 +23,6 @@ export default {
         input: "#3A3D67",
       },
     },
-
-    borderRadius: {
-      sm: "4px",
-      md: "8px",
-      lg: "12px",
-      xl: "16px",
-      full: "9999px",
-    },
   },
   plugins: [],
 } satisfies Config;
