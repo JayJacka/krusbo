@@ -1,4 +1,5 @@
 import { UserButton, currentUser } from "@clerk/nextjs";
+import { UserCard } from "./_components/userCard";
 
 export default async function Home() {
 	const user = await currentUser();
@@ -9,6 +10,7 @@ export default async function Home() {
 		<main className="flex min-h-screen flex-col items-center justify-center bg-black text-white gap-4 text-4xl">
 			Hello, {user?.username}!
 			<UserButton />
+			<UserCard name="Bow"/>
 		</main>
 	);
 }
