@@ -1,6 +1,3 @@
-import { faChevronLeft, faUserGroup } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
 import ChatRoom from "../_components/ChatRoom";
 
 export default async function Chat({ params }: { params: { userID: string } }) {

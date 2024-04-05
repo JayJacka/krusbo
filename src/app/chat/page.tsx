@@ -1,4 +1,3 @@
-import Image from "next/image";
 export default async function Page() {
   return (
     <div className="h-full w-full">

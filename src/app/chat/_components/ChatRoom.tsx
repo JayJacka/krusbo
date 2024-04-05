@@ -1,8 +1,6 @@
 "use client";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ChatInput from "./ChatInput";
 
-import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useRef, useState } from "react";
 export default function ChatRoom({
   withUser,
@@ -88,6 +86,7 @@ export default function ChatRoom({
       >
         {sortedMessages.map((message) => (
           <div
+            key={message.id}
             className={`flex w-full items-start gap-5 ${
               message.sender === withUser ? "flex-row" : "flex-row-reverse"
             }`}

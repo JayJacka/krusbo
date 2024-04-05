@@ -1,8 +1,4 @@
 "use client";
-import { faComment } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useRef } from "react";
-import { MessageCard } from "./MessageCard";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
