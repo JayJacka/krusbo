@@ -3,9 +3,8 @@
 import { useEffect, useState } from "react";
 import {socket} from "~/socket"
 
-export default function chat() {
+export default function Chat() {
 	const [isConnected, setIsConnected] = useState(false);
-	const [transport, setTransport] = useState("N/A");
 
 	useEffect(() => {
 		if (socket.connected) {
@@ -14,16 +13,10 @@ export default function chat() {
 
 		function onConnect() {
 		setIsConnected(true);
-		setTransport(socket.io.engine.transport.name);
-
-		socket.io.engine.on("upgrade", (transport) => {
-			setTransport(transport.name);
-		});
 		}
 
 		function onDisconnect() {
 		setIsConnected(false);
-		setTransport("N/A");
 		}
 
 		socket.on("connect", onConnect);
@@ -38,7 +31,6 @@ export default function chat() {
 	return (
 		<div className="bg-white h-screen">
 		<p>Status: { isConnected ? "connected" : "disconnected" }</p>
-		<p>Transport: { transport }</p>
 		</div>
   );
 }

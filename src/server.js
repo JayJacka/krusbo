@@ -10,15 +10,18 @@ const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();
 
 app.prepare().then(() => {
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const httpServer = createServer(handler);
 
   const io = new Server(httpServer);
 
-  io.on("connection", (socket) => {
-    console.log(socket.id, "connected");
-  });
+  io.on("connection", socket => {
+    socket.emit("your id", socket.id);
+    socket.on("send message", body => {
+        io.emit("message", body)
+    })
+  })
 
-  
   httpServer
     .once("error", (err) => {
       console.error(err);
