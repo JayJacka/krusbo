@@ -30,6 +30,7 @@ export function MessageList({ pagePathName }: { pagePathName: string }) {
         <div className="flex flex-col gap-2">
           {mockRoom.map((room) => (
             <button
+              key={room.id}
               className={`flex items-center gap-2 ${
                 pagePathName.includes(room.id.toString())
                   ? "bg-[#FABD40] text-[#0F1130]"

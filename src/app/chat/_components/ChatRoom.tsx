@@ -10,10 +10,8 @@ export default function ChatRoom({
   pairUser: string;
 }) {
   //  const [messages, setMessages] = useState<RecentMessage[]>([]);
-  const [isOpenChatEvent, setOpenChatEvent] = useState<boolean>(false);
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
-  const topChatRef = useRef<HTMLDivElement>(null);
   const mock = {
     ChatRoom: "123",
     messages: [
