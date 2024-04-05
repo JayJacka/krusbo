@@ -15,6 +15,7 @@ export default {
       },
       colors: {
         primary: "#0F1130",
+        secondary: "#2E3269",
         button: {
           yellow: "#FABD40",
           pink: "#D51F68",
