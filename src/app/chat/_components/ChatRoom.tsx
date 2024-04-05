@@ -4,7 +4,6 @@ import ChatInput from "./ChatInput";
 
 import { faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { useRef, useState } from "react";
-import { ChatMessageProps } from "./type";
 export default function ChatRoom({
   withUser,
   pairUser,
