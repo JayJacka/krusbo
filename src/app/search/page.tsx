@@ -142,7 +142,7 @@ export default function search() {
     },
   ];
   return (
-    <div className="flex h-screen w-full flex-row gap-12 bg-primary p-9">
+    <div className="flex h-screen w-full flex-row gap-12 bg-primary">
       <div className="flex min-w-[278px] flex-col items-center justify-start gap-5 rounded-xl bg-black p-6">
         <div className="flex flex-col items-center justify-center gap-1">
           <div className="text-white">
@@ -221,4 +221,3 @@ export default function search() {
     </div>
   );
 }
-
