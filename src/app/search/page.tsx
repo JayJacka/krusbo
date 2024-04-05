@@ -5,7 +5,6 @@ import {
   faFire,
   faMessage,
   faRocket,
-  faUserGroup,
 } from "@fortawesome/free-solid-svg-icons";
 import CreateGroupDialog from "./_components/create-group-dialog";
 import CardGroup from "./_components/card-group";
