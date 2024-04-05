@@ -1,13 +1,17 @@
 "use client";
 import { createAvatar } from "@dicebear/core";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { botttsNeutral } from '@dicebear/collection';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRotateRight, faUsd} from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@radix-ui/themes";
 import { useState } from "react";
 
-export default function AvatarRandom() {
+type AvatarRandomProps = {
+  setAvatar: (avatar: string) => void;
+}
+
+export default function AvatarRandom({setAvatar}: AvatarRandomProps) {
     const [seed, setSeed] = useState("");
 
     const avatar = useMemo(() => {
@@ -18,6 +22,10 @@ export default function AvatarRandom() {
         }).toDataUriSync();
       }, [seed]);
     
+    useEffect(() => {
+        setAvatar(avatar);
+    }, [avatar]);
+
     const randomSeed = () => {
         setSeed(Math.random().toString());
     }
