@@ -36,7 +36,7 @@ export default function chat() {
 	}, []);
 
 	return (
-		<div>
+		<div className="bg-white h-screen">
 		<p>Status: { isConnected ? "connected" : "disconnected" }</p>
 		<p>Transport: { transport }</p>
 		</div>
