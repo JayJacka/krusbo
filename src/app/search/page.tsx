@@ -1,5 +1,13 @@
 import { ScrollArea } from "~/components/ui/scroll-area";
-import {type GroupDetail } from "./type";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEarthAmerica,
+  faFire,
+  faMessage,
+  faRocket,
+} from "@fortawesome/free-solid-svg-icons";
+import CreateGroupDialog from "./_components/create-group-dialog";
+import CardGroup from "./_components/card-group";
 
 export default function search() {
   const mockData = [
@@ -67,21 +75,21 @@ export default function search() {
       name: "SharkFight",
       participant: 4,
     },
-    // {
-    //   id: 10,
-    //   name: "SleepplyMak",
-    //   participant: 4,
-    // },
-    // {
-    //   id: 11,
-    //   name: "SleepplyMak",
-    //   participant: 4,
-    // },
-    // {
-    //   id: 12,
-    //   name: "SleepplyMak",
-    //   participant: 4,
-    // },
+    {
+      id: 10,
+      name: "SleepplyMak",
+      participant: 4,
+    },
+    {
+      id: 11,
+      name: "SleepplyMak",
+      participant: 4,
+    },
+    {
+      id: 12,
+      name: "SleepplyMak",
+      participant: 4,
+    },
     {
       id: 13,
       name: "SleepplyMak",
@@ -139,9 +147,12 @@ export default function search() {
         <div className="flex flex-col items-center justify-center gap-1">
           <div className="text-white">
             <div className="flex flex-row items-center justify-center gap-3">
-              <div className="min-h-[40px] min-w-[40px] text-[#FF1F00]">
-                Fire
-              </div>
+              <FontAwesomeIcon
+                icon={faFire}
+                className="text-[#FF1F00]"
+                width={40}
+                height={40}
+              />
               <div className="text-[32px] font-bold text-white">
                 Online User
               </div>
@@ -162,25 +173,25 @@ export default function search() {
       <div className="flex w-full flex-col  justify-between gap-4">
         <div className="flex flex-col gap-4 text-white">
           <div className="flex flex-row justify-between gap-4">
-            <div className="flex flex-row gap-4">
-              <div className="min-h-[40px] min-w-[40px] items-center justify-center text-[#2BB5F3]">
-                Pic
-              </div>
+            <div className="flex flex-row items-center gap-4">
+              <FontAwesomeIcon
+                icon={faEarthAmerica}
+                width={40}
+                height={40}
+                className="flex items-center justify-center text-[#2BB5F3]"
+              />
               <div className="text-[36px] font-bold">Global Group</div>
             </div>
-            <button className="flex flex-row items-center justify-center gap-3 rounded-xl bg-button-yellow px-4 py-2">
-              <div className="text-primary">Pic</div>
-              <div className="h4 font-bold text-primary">Create Your Group</div>
-            </button>
+            <CreateGroupDialog />
           </div>
           <div className="flex flex-col gap-4">
-            <div className="h5 font-bold text-grey">
+            <div className="h4 font-bold text-grey">
               {mockGroup.length} Group available
             </div>
             <ScrollArea className="flex max-h-[70vh] min-h-[70vh] flex-col gap-1">
               <div className="relative space-y-5">
                 {mockGroup.map((data) => {
-                  return <GroupCard key={data.id} {...data} />;
+                  return <CardGroup key={data.id} {...data} />;
                 })}
               </div>
             </ScrollArea>
@@ -188,11 +199,21 @@ export default function search() {
         </div>
         <div className="flex flex-row justify-end gap-4">
           <button className="flex flex-row items-center justify-center gap-3 rounded-xl border bg-none px-4 py-2">
-            <div className="text-white">Pic</div>
+            <FontAwesomeIcon
+              icon={faMessage}
+              width={24}
+              height={24}
+              className="text-white"
+            />
             <div className="h4 font-bold text-white">Create Your Group</div>
           </button>
           <button className="flex flex-row items-center justify-center gap-3 rounded-xl bg-button-pink px-4 py-2">
-            <div className="text-white">Pic</div>
+            <FontAwesomeIcon
+              icon={faRocket}
+              width={24}
+              height={24}
+              className="text-white"
+            />
             <div className="h4 font-bold text-white">My Group</div>
           </button>
         </div>
@@ -201,14 +222,3 @@ export default function search() {
   );
 }
 
-const GroupCard = (data: GroupDetail) => {
-  return (
-    <div className="flex h-[54px] flex-row items-center justify-between rounded-lg bg-input px-3 py-2">
-      <div className=" font-bold text-grey">{data.name}</div>
-      <div className="flex flex-row gap-2">
-        <div>Icon</div>
-        <div className="font-bold text-grey">{data.participant}</div>
-      </div>
-    </div>
-  );
-};
