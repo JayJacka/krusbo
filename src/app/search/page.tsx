@@ -205,7 +205,7 @@ export default function search() {
               height={24}
               className="text-white"
             />
-            <div className="h4 font-bold text-white">Create Your Group</div>
+            <div className="h4 font-bold text-white">My Chat</div>
           </button>
           <button className="flex flex-row items-center justify-center gap-3 rounded-xl bg-button-pink px-4 py-2">
             <FontAwesomeIcon
@@ -221,4 +221,3 @@ export default function search() {
     </div>
   );
 }
-
