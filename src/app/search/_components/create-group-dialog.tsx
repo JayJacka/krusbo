@@ -1,11 +1,11 @@
 import { faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    Dialog,
-    DialogContent,
-    DialogTrigger,
-    DialogClose,
-  } from "~/components/ui/dialog";
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+  DialogClose,
+} from "~/components/ui/dialog";
 
 export default function CreateGroupDialog() {
   return (
