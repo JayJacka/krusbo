@@ -4,44 +4,41 @@ import { useEffect, useState } from "react";
 import {socket} from "~/socket"
 
 export default function chat() {
-	const [currentMsg, setCurrentMsg] = useState("");
-	const [chatList, setChatList] = useState<String[]>([]);
-	
-	const sendData = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		await socket.emit("send_msg", currentMsg);
-		setCurrentMsg("");
-		};
-		
-	useEffect(() => {
-		socket.on("send_msg", (msg) => {
-			console.log(msg)
-			console.log("chatList")
-			setChatList((prev) => [...prev, msg]);
-			console.log(chatList)
-		});
-	}, [socket]);
+	const [isConnected, setIsConnected] = useState(false);
+	const [transport, setTransport] = useState("N/A");
 
-    return (
-        <div className="bg-white h-screen">
+	useEffect(() => {
+		if (socket.connected) {
+		onConnect();
+		}
+
+		function onConnect() {
+		setIsConnected(true);
+		setTransport(socket.io.engine.transport.name);
+
+		socket.io.engine.on("upgrade", (transport) => {
+			setTransport(transport.name);
+		});
+		}
+
+		function onDisconnect() {
+		setIsConnected(false);
+		setTransport("N/A");
+		}
+
+		socket.on("connect", onConnect);
+		socket.on("disconnect", onDisconnect);
+
+		return () => {
+		socket.off("connect", onConnect);
+		socket.off("disconnect", onDisconnect);
+		};
+	}, []);
+
+	return (
 		<div>
-			<div>
-			{chatList.map((msg, index) => (
-				<div key={index}>{msg}</div>
-			)
-			)}
-			</div>
-			<div>
-			<form onSubmit={(e) => sendData(e)}>
-				<input
-				type="text"
-				value={currentMsg}
-				placeholder="Type your message.."
-				onChange={(e) => setCurrentMsg(e.target.value)}
-				/>
-				<button>Send</button>
-			</form>
-			</div>
+		<p>Status: { isConnected ? "connected" : "disconnected" }</p>
+		<p>Transport: { transport }</p>
 		</div>
-    </div>);
+  );
 }
