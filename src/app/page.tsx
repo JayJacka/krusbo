@@ -1,19 +1,18 @@
 import { UserButton, currentUser } from "@clerk/nextjs";
-import { UserCard } from "./_components/userCard";
+
+import { UserDataForm } from "./_components/UserDataForm";
 
 export default async function Home() {
 	const user = await currentUser();
 	if (!user) {
-		return <div>Not Signed In</div>;
+		return <div className="text-white">Not Signed In</div>;
 	}
+	 
 	return (
-		<main className="flex min-h-screen flex-col items-center justify-center bg-black text-white gap-4 text-4xl">
-			Hello, {user?.username}!
-			<UserButton />
-			<UserCard name="Bow" index={0}/>
-			<UserCard name="Bow" index={1}/>
-			<UserCard name="Bow" index={2}/>
-			<UserCard name="Bow" index={3}/>
-		</main>
+		<div className="flex min-h-screen flex-col items-center justify-center bg-primary text-white gap-4">
+			<div className="flex flex-col w-3/6 items-center gap-3">
+				<UserDataForm/>
+			</div>
+		</div>
 	);
 }
