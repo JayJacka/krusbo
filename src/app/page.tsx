@@ -10,9 +10,7 @@ export default async function Home() {
 	 
 	return (
 		<div className="flex min-h-screen flex-col items-center justify-center bg-primary text-white gap-4">
-			<div className="flex flex-col w-3/6 items-center">
-				<div className="text-4xl"> Hello, {user?.username}! </div>
-				<UserButton />
+			<div className="flex flex-col w-3/6 items-center gap-3">
 				<UserDataForm/>
 			</div>
 		</div>

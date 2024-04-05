@@ -36,7 +36,7 @@ export function UserDataForm(){
   
   return <div> 
         <Form {...form}>
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 items-center">
             <AvatarRandom setAvatar={handleAvatar}/>
             <h3 className="text-white">Pick your avatar and nickname</h3>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex flex-col items-center gap-1">
