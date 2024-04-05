@@ -27,6 +27,12 @@ export default {
 		purple: "8E73EF",
         input: "#3A3D67",
       },
+      borderRadius: {
+        sm: "4px",
+        md: "8px",
+        lg: "12px",
+        xl: "16px",
+      },
     },
   },
   plugins: [],
