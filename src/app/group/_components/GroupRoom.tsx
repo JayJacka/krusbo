@@ -169,7 +169,11 @@ export default function GroupRoom({ groupID }: { groupID: string }) {
             <div className="flex flex-col gap-3 p-4 text-[20px] text-[#94A3B8]">
               Member - {mockMember.length}
               {mockMember.map((member) => (
-                <UserCard index={member.index} name={member.name}></UserCard>
+                <UserCard
+                  key={member.index}
+                  index={member.index}
+                  name={member.name}
+                ></UserCard>
               ))}
             </div>
           </ScrollArea>
