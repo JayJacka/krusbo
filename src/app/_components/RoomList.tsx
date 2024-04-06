@@ -22,7 +22,7 @@ export function RoomList({ pagePathName }: { pagePathName: string }) {
   console.log(pagePathName, page);
   const router = useRouter();
   return (
-    <div className="min-w-screen flex h-full flex-row gap-11 bg-[#0F1130]">
+    <div className="min-w-screen flex h-full flex-row gap-11 bg-primary">
       <div className="flex h-full w-[200px] flex-col gap-10 lg:w-[270px]">
         <div className="flex h-fit items-center gap-6 text-[36px] text-white">
           <Link href="/" className="text-[40px]">
@@ -37,8 +37,8 @@ export function RoomList({ pagePathName }: { pagePathName: string }) {
                 key={room.id}
                 className={`flex items-center gap-2 ${
                   pagePathName.includes(room.id.toString())
-                    ? "bg-[#FABD40] text-[#0F1130]"
-                    : "bg-[#3A3D67] text-[#94A3B8] opacity-[0.8] hover:bg-[#2E3269]"
+                    ? "bg-button-yellow text-primary"
+                    : "bg-input text-grey opacity-[0.8] hover:bg-secondary"
                 } rounded-lg px-3 py-2 text-[24px]`}
                 onClick={() => {
                   router.push(`/${page}/${room.id}`);

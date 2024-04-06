@@ -178,7 +178,7 @@ export default function search() {
                 icon={faEarthAmerica}
                 width={40}
                 height={40}
-                className="flex items-center justify-center text-[#2BB5F3]"
+                className="flex items-center justify-center text-blue"
               />
               <div className="text-[36px] font-bold">Global Group</div>
             </div>

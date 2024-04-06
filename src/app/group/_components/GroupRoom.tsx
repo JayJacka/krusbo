@@ -141,7 +141,7 @@ export default function GroupRoom({ groupID }: { groupID: string }) {
             <FontAwesomeIcon
               icon={faRightFromBracket}
               flip={"horizontal"}
-              className="text-[#94A3B8]"
+              className="text-grey"
             />
           </button>
         </div>
@@ -170,7 +170,7 @@ export default function GroupRoom({ groupID }: { groupID: string }) {
         </ScrollArea>
         {isCardOpen && (
           <ScrollArea className="flex h-full w-[214px] rounded-lg bg-[#1E2049]">
-            <div className="flex flex-col gap-3 p-4 text-[20px] text-[#94A3B8]">
+            <div className="flex flex-col gap-3 p-4 text-[20px] text-grey">
               Member - {mockMember.length}
               {mockMember.map((member) => (
                 <UserCard
