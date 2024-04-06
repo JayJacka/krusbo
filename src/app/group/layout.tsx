@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { RoomList } from "./_components/RoomList";
+import { RoomList } from "../_components/RoomList";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();

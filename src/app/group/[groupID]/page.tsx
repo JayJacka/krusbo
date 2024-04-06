@@ -1,4 +1,4 @@
-import { group } from "console";
+import ChatRoom from "~/app/chat/_components/ChatRoom";
 import GroupRoom from "../_components/GroupRoom";
 
 export default async function Chat({

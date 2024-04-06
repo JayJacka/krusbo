@@ -7,9 +7,9 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useRef, useState } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import MessageGroupCard from "./MessageGroupCard";
 import { UserCard } from "~/app/_components/userCard";
-import GroupInput from "./GroupInput";
+import MessageCard from "~/app/_components/MessageCard";
+import ChatInput from "~/app/_components/ChatInput";
 export default function GroupRoom({ groupID }: { groupID: string }) {
   const mockMyData = {
     id: "123",
@@ -160,7 +160,11 @@ export default function GroupRoom({ groupID }: { groupID: string }) {
             className="flex flex-col gap-8  px-6 py-4"
           >
             {sortedMessages.map((message) => (
-              <MessageGroupCard key={message.id} message={message} />
+              <MessageCard
+                key={message.id}
+                message={message}
+                isMe={message.sender === mockMyData.id}
+              />
             ))}
           </div>
         </ScrollArea>
@@ -179,7 +183,7 @@ export default function GroupRoom({ groupID }: { groupID: string }) {
           </ScrollArea>
         )}
       </div>
-      <GroupInput />
+      <ChatInput />
     </div>
   );
 }

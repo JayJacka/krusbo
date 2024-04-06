@@ -4,16 +4,18 @@ interface Message {
   content: string;
   timestamp: string;
 }
-export default function MessageGroupCard({ message }: { message: Message }) {
-  const mockMyData = {
-    id: "123",
-    name: "Bow",
-  };
+export default function MessageCard({
+  isMe,
+  message,
+}: {
+  isMe: boolean;
+  message: Message;
+}) {
   return (
     <div
       key={message.id}
       className={`flex w-full items-start gap-5 ${
-        message.sender !== mockMyData.id ? "flex-row" : "flex-row-reverse"
+        !isMe ? "flex-row" : "flex-row-reverse"
       }`}
     >
       <img
@@ -26,20 +28,18 @@ export default function MessageGroupCard({ message }: { message: Message }) {
       <div
         key={message.id}
         className={`flex w-full flex-col gap-3 ${
-          message.sender !== mockMyData.id ? "items-start" : "items-end"
+          !isMe ? "items-start" : "items-end"
         }`}
       >
         <div className="text-[24px] text-white">{message.sender}</div>
         <div
           className={`flex items-center gap-2 ${
-            message.sender !== mockMyData.id ? "justify-start" : "justify-end"
+            !isMe ? "justify-start" : "justify-end"
           }`}
         >
           <div
             className={`text-[20px] ${
-              message.sender !== mockMyData.id
-                ? "text-[#2BB5F3]"
-                : "text-[#FABD40]"
+              !isMe ? "text-[#2BB5F3]" : "text-[#FABD40]"
             }`}
           >
             {message.content}

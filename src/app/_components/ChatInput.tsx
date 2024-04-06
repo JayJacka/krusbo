@@ -22,7 +22,7 @@ export default function ChatInput() {
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Type a message..."
-        className="flex-1 rounded-xl bg-[#3A3D67]"
+        className="flex-1 rounded-xl bg-[#3A3D67] text-white"
       />
       <button className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-[40px] text-black hover:bg-[#FABD40] hover:text-[#0F1130]">
         {">"}
