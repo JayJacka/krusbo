@@ -14,13 +14,23 @@ app.prepare().then(() => {
   const httpServer = createServer(handler);
 
   const io = new Server(httpServer);
+  const currentTime = new Date().getTime();
 
   io.on("connection", socket => {
     socket.emit("your id", socket.id);
     socket.on("send message", body => {
-        io.emit("message", body)
+      io.emit("message", body)
     })
-  })
+
+    socket.on("start game", body => {
+      io.emit("game started", body)
+    })
+
+    socket.on("send time target", body => {
+      io.emit("time target", body)
+    })
+    }
+  )
 
   httpServer
     .once("error", (err) => {
