@@ -38,7 +38,7 @@ export default function MessageCard({
           }`}
         >
           <div
-            className={`text-[20px] ${!isMe ? "text-blue" : "text-button-yellow"} `}
+            className={`text-[20px] ${!isMe ? "text-blue" : "text-yellow"} `}
           >
             {message.content}
           </div>

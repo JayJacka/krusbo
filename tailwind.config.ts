@@ -16,16 +16,20 @@ export default {
       colors: {
         primary: "#0F1130",
         secondary: "#2E3269",
-        button: {
-          yellow: "#FABD40",
-          pink: "#D51F68",
-        },
+        yellow: "#FABD40",
         blue: "#2BB5F3",
         pink: "#D51F68",
         orange: "#F96708",
         green: "#2DDD6A",
         purple: "#8E73EF",
         input: "#3A3D67",
+        red: "#FF1F00",
+      },
+      backgroundColor: {
+        blue: {
+          100: "#1E2049",
+          200: "#131429",
+        },
       },
       borderRadius: {
         sm: "4px",

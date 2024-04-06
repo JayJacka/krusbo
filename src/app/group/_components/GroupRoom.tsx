@@ -134,7 +134,7 @@ export default function GroupRoom({ groupID }: { groupID: string }) {
     );
   return (
     <div className="flex h-full w-full flex-col gap-3">
-      <div className="flex w-full items-center justify-between rounded-t-xl bg-[#1E2049] p-4 text-[32px] text-white">
+      <div className="bg-blue-100 flex w-full items-center justify-between rounded-t-xl p-4 text-[32px] text-white">
         <div className="flex flex-row items-center gap-2">
           {mock.groupName}
           <button>
@@ -154,7 +154,7 @@ export default function GroupRoom({ groupID }: { groupID: string }) {
         </button>
       </div>
       <div className="flex h-[76%] w-full flex-row gap-2">
-        <ScrollArea className="flex h-full flex-1 bg-[#131429]">
+        <ScrollArea className="bg-blue-200 flex h-full flex-1">
           <div
             ref={chatContainerRef}
             className="flex flex-col gap-8  px-6 py-4"
@@ -169,7 +169,7 @@ export default function GroupRoom({ groupID }: { groupID: string }) {
           </div>
         </ScrollArea>
         {isCardOpen && (
-          <ScrollArea className="flex h-full w-[214px] rounded-lg bg-[#1E2049]">
+          <ScrollArea className="bg-blue-100 flex h-full w-[214px] rounded-lg">
             <div className="flex flex-col gap-3 p-4 text-[20px] text-grey">
               Member - {mockMember.length}
               {mockMember.map((member) => (

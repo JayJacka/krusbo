@@ -37,7 +37,7 @@ export function RoomList({ pagePathName }: { pagePathName: string }) {
                 key={room.id}
                 className={`flex items-center gap-2 ${
                   pagePathName.includes(room.id.toString())
-                    ? "bg-button-yellow text-primary"
+                    ? "bg-yellow text-primary"
                     : "bg-input text-grey opacity-[0.8] hover:bg-secondary"
                 } rounded-lg px-3 py-2 text-[24px]`}
                 onClick={() => {

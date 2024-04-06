@@ -14,7 +14,7 @@ export default function ChatInput() {
         // });
       }}
     >
-      <button className="hover:bg-y flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-[40px] text-button-pink hover:text-primary">
+      <button className="hover:bg-y flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-[40px] text-pink hover:text-primary">
         +
       </button>
       <Input
@@ -24,7 +24,7 @@ export default function ChatInput() {
         placeholder="Type a message..."
         className="flex-1 rounded-xl bg-input text-white"
       />
-      <button className="flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-[40px] text-black hover:bg-button-yellow hover:text-primary">
+      <button className="hover:bg-yellow flex h-[44px] w-[44px] items-center justify-center rounded-full bg-white text-[40px] text-black hover:text-primary">
         {">"}
       </button>
     </form>

@@ -78,14 +78,14 @@ export default function ChatRoom({
     );
   return (
     <div className="flex h-full w-full flex-col gap-3">
-      <div className="flex w-full justify-between rounded-t-xl bg-[#1E2049] p-4 text-[32px] text-white">
+      <div className="bg-blue-100 flex w-full justify-between rounded-t-xl p-4 text-[32px] text-white">
         {pairUser}
       </div>
 
       <ScrollArea>
         <div
           ref={chatContainerRef}
-          className="flex flex-1 flex-col gap-8 overflow-y-auto bg-[#131429] px-6 py-4"
+          className="bg-blue-200 flex flex-1 flex-col gap-8 overflow-y-auto px-6 py-4"
         >
           {sortedMessages.map((message) => (
             <MessageCard
