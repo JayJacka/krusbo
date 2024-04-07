@@ -10,31 +10,31 @@ export default function SongGuessr(){
     const [message,setMessage] = useState<string[]>([]);
     const [gameStarted,setGameStarted] = useState(false);
     const [targetTime, setTargetTime] = useState(0);
-    const [timeLeft, setTimeLeft] = useState(20);
+    const [timeLeft, setTimeLeft] = useState(10);
     const [numQuestions, setNumQuestions] = useState(1);
     const [waitingForNextQuestion, setWaitingForNextQuestion] = useState(false);
     const [isCorrect, setIsCorrect] = useState(false);
     const [isSelected, setIsSelected] = useState(false);
-    const [gameEnded, setGameEnded] = useState(false);
+    const [score, setScore] = useState(0);
 
-    // const handlepost = () =>{
-    //     socket.emit("send message",name);
-    // };
-    
+    const handlepost = () =>{
+        socket.emit("send message",name);
+    }
     const handleStart = () =>{
         socket.emit("start game");
-        socket.emit("send time target", new Date().getTime() + 20000);
+        socket.emit("send song");
+        socket.emit("send time target", new Date().getTime() + 10000);
     };
 
     const handleGameEnd = () => {
         setGameStarted(false);
-        setGameEnded(true);
         setIsSelected(false);
         setWaitingForNextQuestion(false);
         setNumQuestions(1);
         setTargetTime(0);
-        setTimeLeft(20);
+        setTimeLeft(10);
     }
+
     useEffect(() => {
         console.log("targetTime",targetTime)
         const intervalId = setInterval(() => {
@@ -54,7 +54,8 @@ export default function SongGuessr(){
                     setIsSelected(false);
                     setWaitingForNextQuestion(false);
                     console.log("send time target")
-                    socket.emit("send time target", new Date().getTime() + 20000);
+                    socket.emit("send time target", new Date().getTime() + 10000);
+                    socket.emit("send song");
                     setNumQuestions(numQuestions + 1)
                 }, 3000);
             }
@@ -97,7 +98,7 @@ export default function SongGuessr(){
             {!gameStarted && <Button className="text-white bg-button-pink" onClick={handleStart}>Start Game</Button>}
             {/* {gameStarted && <h2 className="text-white">Game Started</h2>} */}
             {/* {gameEnded && <h2 className="text-white">Game Ended</h2>} */}
-            {gameStarted && <div className="flex flex-row justify-between">
+            {gameStarted && <div className="flex flex-row justify-between gap-2">
                 {!waitingForNextQuestion && <p className="text-grey">Time remaining: {timeLeft} seconds</p>}
                 <h3 className="text-grey">Question: {numQuestions} from 5</h3>
                 </div>}
