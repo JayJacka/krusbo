@@ -1,7 +1,9 @@
 "use client";
-import ChatInput from "./ChatInput";
+import ChatInput from "../../_components/ChatInput";
 
 import { useRef, useState } from "react";
+import MessageCard from "../../_components/MessageCard";
+import { ScrollArea } from "~/components/ui/scroll-area";
 export default function ChatRoom({
   withUser,
   pairUser,
@@ -12,8 +14,9 @@ export default function ChatRoom({
   //  const [messages, setMessages] = useState<RecentMessage[]>([]);
 
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  //query messages from withUser (mock 123)
   const mock = {
-    ChatRoom: "123",
+    ChatRoom: "123", //me chat with user 123
     messages: [
       {
         id: 8,
@@ -75,53 +78,24 @@ export default function ChatRoom({
     );
   return (
     <div className="flex h-full w-full flex-col gap-3">
-      <div className="flex w-full justify-between rounded-t-xl bg-[#1E2049] p-4 text-[32px] text-white">
+      <div className="bg-blue-100 flex w-full justify-between rounded-t-xl p-4 text-[32px] text-white">
         {pairUser}
       </div>
-      <div
-        ref={chatContainerRef}
-        className="flex flex-1 flex-col gap-8 overflow-y-auto bg-[#131429] p-4"
-      >
-        {sortedMessages.map((message) => (
-          <div
-            key={message.id}
-            className={`flex w-full items-start gap-5 ${
-              message.sender === withUser ? "flex-row" : "flex-row-reverse"
-            }`}
-          >
-            <img
-              alt="profile"
-              src="https://api.dicebear.com/8.x/bottts-neutral/svg?seed=Boots"
-              height={26}
-              width={26}
-              className="py-2"
-            ></img>
-            <div
+
+      <ScrollArea>
+        <div
+          ref={chatContainerRef}
+          className="bg-blue-200 flex flex-1 flex-col gap-8 overflow-y-auto px-6 py-4"
+        >
+          {sortedMessages.map((message) => (
+            <MessageCard
               key={message.id}
-              className={`flex w-full flex-col gap-3 ${
-                message.sender === withUser ? "items-start" : "items-end"
-              }`}
-            >
-              <div className="text-[24px] text-white">{message.sender}</div>
-              <div
-                className={`flex items-center gap-2 ${
-                  message.sender === withUser ? "justify-start" : "justify-end"
-                }`}
-              >
-                <div
-                  className={`text-[20px] ${
-                    message.sender === withUser
-                      ? "text-[#2BB5F3]"
-                      : "text-[#FABD40]"
-                  }`}
-                >
-                  {message.content}
-                </div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+              isMe={message.sender !== withUser}
+              message={message}
+            />
+          ))}
+        </div>
+      </ScrollArea>
       <ChatInput />
     </div>
   );

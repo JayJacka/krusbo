@@ -149,7 +149,7 @@ export default function search() {
             <div className="flex flex-row items-center justify-center gap-3">
               <FontAwesomeIcon
                 icon={faFire}
-                className="text-[#FF1F00]"
+                className="text-red"
                 width={40}
                 height={40}
               />
@@ -178,7 +178,7 @@ export default function search() {
                 icon={faEarthAmerica}
                 width={40}
                 height={40}
-                className="flex items-center justify-center text-[#2BB5F3]"
+                className="flex items-center justify-center text-blue"
               />
               <div className="text-[36px] font-bold">Global Group</div>
             </div>
@@ -207,7 +207,7 @@ export default function search() {
             />
             <div className="h4 font-bold text-white">Create Your Group</div>
           </button>
-          <button className="flex flex-row items-center justify-center gap-3 rounded-xl bg-button-pink px-4 py-2">
+          <button className="flex flex-row items-center justify-center gap-3 rounded-xl bg-pink px-4 py-2">
             <FontAwesomeIcon
               icon={faRocket}
               width={24}
