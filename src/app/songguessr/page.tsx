@@ -21,6 +21,7 @@ export default function SongGuessr(){
         socket.emit("send message",name);
     }
     const handleStart = () =>{
+        console.log("start game")
         socket.emit("start game");
         socket.emit("send song");
         socket.emit("send time target", new Date().getTime() + 10000);
@@ -36,7 +37,7 @@ export default function SongGuessr(){
     }
 
     useEffect(() => {
-        console.log("targetTime",targetTime)
+        // console.log("targetTime",targetTime)
         const intervalId = setInterval(() => {
             const currentTime = new Date().getTime();
             const timeLeft = targetTime - currentTime;
@@ -49,15 +50,22 @@ export default function SongGuessr(){
                     clearInterval(intervalId);
                     return;
                 }
-                setWaitingForNextQuestion(true);
-                setTimeout(() => {
-                    setIsSelected(false);
-                    setWaitingForNextQuestion(false);
-                    console.log("send time target")
-                    socket.emit("send time target", new Date().getTime() + 10000);
-                    socket.emit("send song");
-                    setNumQuestions(numQuestions + 1)
-                }, 3000);
+
+                // setWaitingForNextQuestion(true);
+                setIsSelected(false);
+                setWaitingForNextQuestion(false);
+                console.log("timeout");
+                socket.emit("send time target", new Date().getTime() + 10000);
+                socket.emit("send song");
+                setNumQuestions(numQuestions + 1);
+                // setTimeout(() => {
+                //     setIsSelected(false);
+                //     setWaitingForNextQuestion(false);
+                //     console.log("timeout");
+                //     socket.emit("send time target", new Date().getTime() + 10000);
+                //     socket.emit("send song");
+                //     setNumQuestions(numQuestions + 1);
+                // }, 4000);
             }
         }, 1000);
 
@@ -72,10 +80,12 @@ export default function SongGuessr(){
         setMessage([...message,data]);
     });
 
-    socket.on("time target", data => {
-        console.log("get time target",data);
-        setTargetTime(data);
-    });
+    if (!waitingForNextQuestion) {
+        socket.on("time target", data => {
+            console.log("get time target",data);
+            setTargetTime(data);
+        });
+    }
 
     socket.on("game started",data => {
         console.log("Game started");

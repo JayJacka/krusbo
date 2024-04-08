@@ -14,8 +14,6 @@ app.prepare().then(async() => {
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   const httpServer = createServer(handler);
   const io = new Server(httpServer);
-  const {song, choices} = await RandomSong();
-
   io.on("connection", socket => {
     socket.emit("your id", socket.id);
     socket.on("send message", body => {
@@ -30,7 +28,8 @@ app.prepare().then(async() => {
       io.emit("time target", body)
     })
 
-    socket.on("send song", body => {
+    socket.on("send song", async () => {
+      const {song, choices} = await RandomSong();
       io.emit("song", song)
       io.emit("choices", choices)
     })
