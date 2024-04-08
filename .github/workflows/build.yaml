@@ -6,9 +6,9 @@ on:
       - main
 
 env:
-  REPO_NAME: ${{ github.repository }}
-  PROJECT_NAME: ${{ github.event.repository.name }}
-  IMAGE_NAME: ghcr.io/${{ github.repository }}
+  REPO_NAME: "jayjacka/krusbo"
+  PROJECT_NAME: "krusbo"
+  IMAGE_NAME: "ghcr.io/jayjacka/krusbo"
 
 jobs:
   build-and-deploy:
