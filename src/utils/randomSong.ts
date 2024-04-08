@@ -48,6 +48,7 @@ export default async function RandomSong(){
 
     const selectedSong: TrackDetail[] = randomIndices.map(index => songList[index]!);
     const randomSelectedSong = Math.floor(Math.random() * selectedSong.length);
+    console.log("from server",selectedSong[randomSelectedSong])
     return {
         song: selectedSong[randomSelectedSong],
         choices: selectedSong,
