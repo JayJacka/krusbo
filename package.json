@@ -10,7 +10,7 @@
     "dev": " vite-node src/server.ts",
     "postinstall": "prisma generate",
     "lint": "next lint",
-    "start": "NODE_ENV=production vite-node ./src/server.ts"
+    "start": "vite-node src/server.ts"
   },
   "dependencies": {
     "@clerk/nextjs": "^4.29.9",
