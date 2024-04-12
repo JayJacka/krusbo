@@ -1,6 +1,6 @@
-"use "
+"use client"
 import { use, useEffect, useState } from "react";
-import { MyDataFormat, TrackDetail } from "../type";
+import { PlaylistTracks, TrackDetail } from "../type";
 import { Button } from "~/components/ui/button";
 import ReactAudioPlayer from 'react-audio-player';
 import { socket } from "~/socket";
@@ -8,12 +8,6 @@ import { socket } from "~/socket";
 type SpotifyTrackProps = {
     setIsCorrect: (isCorrect: boolean) => void; 
 }
-
-const playlistLists = [
-    "6H6DccZQ0NFw7rDaYu5h10",
-    "37i9dQZF1DXc51TI5dx7RC",
-
-]
 
 export function QuestionContainer(prop: SpotifyTrackProps){
     const {setIsCorrect} = prop;
@@ -28,6 +22,7 @@ export function QuestionContainer(prop: SpotifyTrackProps){
     }
 
     socket.on("song", (song: TrackDetail) => {
+        console.log("song", song)
         setSong(song);
     });
 
