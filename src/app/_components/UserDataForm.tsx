@@ -9,6 +9,7 @@ import { Button } from "~/components/ui/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
 import AvatarRandom from "./AvatarRandom";
+import { api } from "~/trpc/react";
 
 export function UserDataForm() {
   const formSchema = z.object({
@@ -18,6 +19,8 @@ export function UserDataForm() {
     }),
   });
 
+  const createUser = api.auth.createUser.useMutation();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -26,8 +29,12 @@ export function UserDataForm() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof formSchema>) {
-    console.log(data);
+  async function onSubmit(data: z.infer<typeof formSchema>) {
+    const props = {
+      avatar: data.avatar,
+      nickname: data.nickname,
+    };
+    await createUser.mutateAsync(props);
   }
 
   function handleAvatar(avatar: string) {
@@ -64,7 +71,7 @@ export function UserDataForm() {
               className="flex flex-row gap-2 rounded-xl bg-pink text-white"
             >
               <FontAwesomeIcon icon={faRocket} />
-              Let Started
+              Let's Get Started
             </Button>
           </form>
         </div>
