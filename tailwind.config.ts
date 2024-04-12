@@ -27,6 +27,7 @@ export default {
       },
       backgroundColor: {
         blue: {
+          50: "#2BB5F3",
           100: "#1E2049",
           200: "#131429",
         },

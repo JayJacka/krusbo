@@ -10,32 +10,32 @@ import {
 export default function CreateGroupDialog() {
   return (
     <Dialog>
-      <DialogTrigger className="bg-yellow flex flex-row items-center justify-center gap-3 rounded-xl px-4 py-2">
+      <DialogTrigger className="flex flex-row items-center justify-center gap-3 rounded-xl bg-yellow px-4 py-2">
         <FontAwesomeIcon
           icon={faPlusCircle}
           width={24}
           height={24}
           className="text-primary"
         />
-        <div className="h3 font-bold text-primary">Create Your Group</div>
+        <div className="h6 lg:h4 text-primary">Create Your Group</div>
       </DialogTrigger>
       <DialogContent className="flex h-[256px] w-[512px] flex-col items-center justify-between gap-3 border-none bg-secondary p-6">
-        <div className="h2 text-yellow font-bold">Create Group Chat</div>
+        <div className="h3 text-yellow">Create Group Chat</div>
         <div className="flex w-full flex-col items-start justify-start gap-2">
-          <div className="h4 font-bold text-white">Group Name</div>
+          <div className="h4  text-white">Group Name</div>
           <input
-            className="h-[54px] w-full rounded-xl bg-primary px-3 py-2 text-grey opacity-80"
+            className="h-[54px] w-full rounded-xl bg-primary px-3 py-2 text-white opacity-80"
             type=""
             placeholder="Enter your group name here"
           />
         </div>
         <div className="flex w-full flex-row justify-end gap-3">
           <DialogClose asChild>
-            <button className="h5 h-[40px] w-[80px] rounded-2xl border border-white font-bold text-white">
+            <button className="h5 h-[40px] w-[80px] rounded-2xl border border-white text-white">
               Cancel
             </button>
           </DialogClose>
-          <button className="h5 bg-yellow h-[40px] w-[80px] rounded-2xl font-bold text-black">
+          <button className="h5 h-[40px] w-[80px] rounded-2xl bg-yellow text-black">
             Submit
           </button>
         </div>
