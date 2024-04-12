@@ -15,7 +15,7 @@ export const authRouter = createTRPCRouter({
     });
     return user;
   }),
-  getUserId: publicProcedure.query(async ({ ctx }) => {
+  getUserId: publicProcedure.query(async () => {
     const { userId } = auth();
     if (!userId) {
       return null;
