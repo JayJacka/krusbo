@@ -21,6 +21,12 @@ model User {
     groups    Group[]
 }
 
+model User2{
+    id          String  @unique
+    avatar      String
+    nickname    String  @default("")
+}
+
 model Message {
     id        String   @id @default(cuid())
     createdAt DateTime @default(now())
