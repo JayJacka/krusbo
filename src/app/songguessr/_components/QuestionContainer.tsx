@@ -6,12 +6,13 @@ import ReactAudioPlayer from 'react-audio-player';
 import { socket } from "~/socket";
 
 type SpotifyTrackProps = {
-    setIsCorrect: (isCorrect: boolean) => void; 
+    setIsCorrect: (isCorrect: boolean) => void;
+    song?: TrackDetail;
+    setSong: (song: TrackDetail) => void;
 }
 
 export function QuestionContainer(prop: SpotifyTrackProps){
-    const {setIsCorrect} = prop;
-    const [song, setSong] = useState<TrackDetail>();
+    const {setIsCorrect, song, setSong} = prop;
     const [choices, setChoices] = useState<TrackDetail[]>([]);
     const [answer, setAnswer] = useState("");
     const [isSelected, setIsSelected] = useState(false);
@@ -22,7 +23,6 @@ export function QuestionContainer(prop: SpotifyTrackProps){
     }
 
     socket.on("song", (song: TrackDetail) => {
-        console.log("song", song)
         setSong(song);
     });
 
@@ -30,8 +30,9 @@ export function QuestionContainer(prop: SpotifyTrackProps){
         setChoices(choices);
     });
 
+
     return (
-        <div className="bg-yellow flex flex-col gap-3 items-center justify-center h-full">
+        <div className="flex flex-col gap-3 items-center justify-center h-full">
             <h3 className="text-white">Guess the song name</h3>
             <ReactAudioPlayer
                 className="hidden"

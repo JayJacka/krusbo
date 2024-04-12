@@ -5,7 +5,7 @@ import { socket } from "~/socket";
 import { QuestionContainer } from "./_components/QuestionContainer";
 import { PlaylistSelection } from "./_components/PlaylistSelection";
 import { fetchPlaylists } from "./utils/fetchPlaylists";
-import { CategoryPlaylists, CategoryWithPlaylists } from "./type";
+import { CategoryWithPlaylists, TrackDetail } from "./type";
 
 export default function SongGuessr(){
     const [gameStarted,setGameStarted] = useState(false);
@@ -17,6 +17,7 @@ export default function SongGuessr(){
     const [score, setScore] = useState(0);
     const [selectedPlaylist, setSelectedPlaylist] = useState("");
     const [categoryPlayLists, setCategoryPlayLists] = useState<CategoryWithPlaylists[]>([]);
+    const [song, setSong] = useState<TrackDetail>();
 
     useEffect(() => {
         async function fetchData(){
@@ -26,12 +27,7 @@ export default function SongGuessr(){
         fetchData();
     }, []);
 
-    const handlepost = () => {
-        socket.emit("send message",name);
-    }
-
     const handleStart = () =>{
-        console.log("enter start game")
         socket.emit("start game", selectedPlaylist);
         socket.emit("send time target", new Date().getTime() + 18000);
     };
@@ -48,8 +44,16 @@ export default function SongGuessr(){
         setSelectedPlaylist(id);
     }
 
+    const handleSetSong = (song: TrackDetail) => {
+        setSong(song)
+    }
+
+    const handleIsCorrect = (isCorrect: boolean) => {
+        setIsCorrect(isCorrect)
+        isCorrect ? setScore(score + 100) : setScore(score);
+    }
+
     useEffect(() => {
-        // console.log(targetTime)
         const intervalId = setInterval(() => {
             const currentTime = new Date().getTime();
             const roundTimeLeft = targetTime - currentTime;
@@ -57,7 +61,7 @@ export default function SongGuessr(){
             if (timeLeft >= 3) {
                 setTimeLeft(timeLeft);
             }
-            else if(timeLeft < 3 && timeLeft > 0) {
+            else if(timeLeft < 3 && timeLeft >= 0) {
                 if (numQuestions === 10) {
                     handleGameEnd();
                     clearInterval(intervalId);
@@ -66,10 +70,8 @@ export default function SongGuessr(){
 
                 setTimeLeft(18);
                 setWaitingForNextQuestion(true);
-                // isCorrect ? setScore(score + 100) : setScore(score);
             }
-            else if (targetTime != 0 && gameStarted){
-                console.log("in here")
+            else if (targetTime != 0){
                 setWaitingForNextQuestion(false);
                 socket.emit("send time target", new Date().getTime() + 18000);
                 socket.emit("send song");
@@ -81,38 +83,39 @@ export default function SongGuessr(){
     }, [targetTime]);
     
     socket.on("time target", data => {
-        console.log("time target", data)
         setTargetTime(data);
     });
 
-    socket.on("game started",data => {
-        console.log("Game started");
+    socket.on("game started", () => {
         setGameStarted(true);
     });
 
     return (
         <div className="h-screen flex flex-col items-center justify-center">
-            {waitingForNextQuestion &&<div className="text-white">
+            <div className="text-white">
                 score: {score}
-            </div>}
-            <h1 className="text-button-yellow text-4xl">Song Guessr</h1>
+            </div>
+            <h1 className="text-yellow text-4xl">Song Guessr</h1>
             <div className="p-4 flex flex-col w-1/2 items-center gap-4">
                 {!gameStarted && <PlaylistSelection categoryPlaylists={categoryPlayLists} selectedPlaylist={selectedPlaylist} setSelectedPlaylist={handleSelectPlaylist}/>}
-                {!gameStarted && <Button className="text-white bg-button-pink w-fit" onClick={handleStart}>Start Game</Button>}
+                {!gameStarted && <Button disabled={selectedPlaylist == ""} className="text-white bg-pink w-fit" onClick={handleStart}>Start Game</Button>}
                 {gameStarted && <div className="flex flex-row justify-between gap-2">
                     {!waitingForNextQuestion && <p className="text-grey">Time remaining: {timeLeft-3} seconds</p>}
                     <h3 className="text-grey">Question: {numQuestions} from 5</h3>
                     </div>}
                 {waitingForNextQuestion && <h2 className="text-white font-2xl">Waiting for next question</h2>}
-                {!waitingForNextQuestion && gameStarted && <QuestionContainer setIsCorrect={(isCorrect)=> setIsCorrect(isCorrect)} />}
-                {waitingForNextQuestion && 
-                    <p className="text-white">{isCorrect? "correct" : "Incorrect"}</p>
-                    // <div className="flex flex-col opacity-10 bg-white">
-                    //     <p className="text-white"> Correct answer: {isCorrect ? "correct" : "Incorrect"}</p>
-                    //     <p className="text-white">{isCorrect? "correct" : "Incorrect"}</p>
-                    //     isCorrect && <p className="text-white">+{100}</p>
-                    // </div>
-                }
+                {!waitingForNextQuestion && gameStarted && <QuestionContainer song={song} setSong={handleSetSong} setIsCorrect={handleIsCorrect} />}
+                {waitingForNextQuestion && (isCorrect ?
+                    <div className="flex flex-col opacity-100 bg-blue-100 p-4 rounded-lg">
+                        <p className="text-grey"> Correct answer: {song?.name}</p>
+                        <p className="text-green text-4xl"> Correct</p>
+                        <p className="text-yellow"> + {100} points</p>
+                    </div> :
+                    <div className="flex flex-col opacity-100 bg-blue-100 p-4 rounded-lg">
+                        <p className="text-grey"> Correct answer: {song?.name}</p>
+                        <p className="text-red text-4xl"> Incorrect</p>
+                    </div>
+                )}
             </div>
         </div>
     );

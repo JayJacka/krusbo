@@ -20,7 +20,7 @@ export function PlaylistSelection(prop: PlaylistSelectionProp) {
         {categoryPlaylists.map((category, index) => (
                 <Button key={index} onClick={() => setSelectedCategory(index)} 
                 className={"bg-slate-300 hover:bg-slate-400 text-primary "+
-                    (selectedCategory==index ? "bg-button-yellow" : "")}>
+                    (selectedCategory==index ? "bg-yellow" : "")}>
                 {category.name} </Button>
         ))}
         </div>
