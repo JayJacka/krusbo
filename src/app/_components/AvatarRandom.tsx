@@ -9,9 +9,10 @@ import { useState } from "react";
 
 type AvatarRandomProps = {
   setAvatar: (avatar: string) => void;
+  size?: number;
 };
 
-export default function AvatarRandom({ setAvatar }: AvatarRandomProps) {
+export default function AvatarRandom({ setAvatar, size }: AvatarRandomProps) {
   const [seed, setSeed] = useState("");
 
   const avatar = useMemo(() => {
@@ -29,15 +30,18 @@ export default function AvatarRandom({ setAvatar }: AvatarRandomProps) {
   const randomSeed = () => {
     setSeed(Math.random().toString());
   };
+  if (!size) {
+    size = 140;
+  }
   return (
-    <div className="relative h-[140px] w-[140px]">
-      <img src={avatar} alt="avatar" />
+    <div className={`h-140 w-140 relative`}>
+      <img src={avatar} alt="avatar" height={size} width={size} />
       <Button
-        className="absolute bottom-[-1px] right-[-1px] h-9 w-9 cursor-pointer"
+        className="bottom absolute bottom-[-14px] right-[-10px] h-9 w-9 cursor-pointer"
         onClick={randomSeed}
       >
         <FontAwesomeIcon
-          className="bg-yellow stoke-text-primary rounded-lg stroke-1	p-2 text-primary"
+          className="stoke-text-primary rounded-lg bg-yellow stroke-1	p-2 text-primary"
           icon={faArrowRotateRight}
         />
       </Button>
