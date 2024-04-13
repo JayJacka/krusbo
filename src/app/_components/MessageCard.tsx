@@ -9,11 +9,10 @@ export default function MessageCard({
   message,
 }: {
   isMe: boolean;
-  message: Message;
+  message: string;
 }) {
   return (
     <div
-      key={message.id}
       className={`flex w-full items-start gap-5 ${
         !isMe ? "flex-row" : "flex-row-reverse"
       }`}
@@ -24,14 +23,13 @@ export default function MessageCard({
         height={26}
         width={26}
         className="py-2"
-      ></img>
+      />
       <div
-        key={message.id}
         className={`flex w-full flex-col gap-3 ${
           !isMe ? "items-start" : "items-end"
         }`}
       >
-        <div className="text-[24px] text-white">{message.sender}</div>
+        {/* <div className="text-[24px] text-white">{message}</div> */}
         <div
           className={`flex items-center gap-2 ${
             !isMe ? "justify-start" : "justify-end"
@@ -40,7 +38,7 @@ export default function MessageCard({
           <div
             className={`text-[20px] ${!isMe ? "text-blue" : "text-yellow"} `}
           >
-            {message.content}
+            {message}
           </div>
         </div>
       </div>

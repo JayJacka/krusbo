@@ -1,9 +1,16 @@
 "use client";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { ScrollArea } from "~/components/ui/scroll-area";
 
+import {socket} from "~/socket";
+
 export function RoomList({ pagePathName }: { pagePathName: string }) {
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+  socket.on("onlineUsers", (users: string[]) => {
+    setOnlineUsers(users)
+  })
   const mockRoom = [
     {
       id: 123,
@@ -32,19 +39,20 @@ export function RoomList({ pagePathName }: { pagePathName: string }) {
         </div>
         <ScrollArea>
           <div className="flex flex-col gap-2">
-            {mockRoom.map((room) => (
+            {onlineUsers.filter((user) => user !== socket.id).map((user) => (
               <button
-                key={room.id}
+                key={user}
+                type="button"
                 className={`flex items-center gap-2 ${
-                  pagePathName.includes(room.id.toString())
+                  pagePathName.includes(user.toString())
                     ? "bg-yellow text-primary"
                     : "bg-input text-grey opacity-[0.8] hover:bg-secondary"
                 } rounded-lg px-3 py-2 text-[24px]`}
                 onClick={() => {
-                  router.push(`/${page}/${room.id}`);
+                  router.push(`/${page}/${user}`);
                 }}
               >
-                {room.name}
+                {user}
               </button>
             ))}
           </div>
