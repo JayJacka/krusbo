@@ -64,9 +64,10 @@ export default function LeaderBoard(props: ScoreProps) {
         <div className="flex h-full w-full flex-col gap-3">
           {mockData
             .sort((a, b) => b.score - a.score)
-            .map((data) => {
+            .map((data, index) => {
               return (
                 <ScoreCard
+                  key={index}
                   name={data.name}
                   avatar={data.avatar}
                   score={data.score}

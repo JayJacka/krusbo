@@ -53,13 +53,11 @@ export default function SongGuessr() {
     setSong(song);
   };
 
-  const handleIsCorrect = (isCorrect: boolean) => {
-    setIsCorrect(isCorrect);
-    isCorrect ? setScore(score + 100) : setScore(score);
+  const handleIsCorrect = (isCorrec: boolean) => {
+    setIsCorrect(isCorrec);
   };
 
   useEffect(() => {
-    console.log(isCorrect);
     const intervalId = setInterval(() => {
       const currentTime = new Date().getTime();
       const roundTimeLeft = targetTime - currentTime;
@@ -74,7 +72,9 @@ export default function SongGuessr() {
         }
         setTimeLeft(18);
         setWaitingForNextQuestion(true);
+        isCorrect ? setScore(score + 100) : setScore(score);
       } else if (targetTime != 0) {
+        setIsCorrect(false);
         setWaitingForNextQuestion(false);
         socket.emit("send time target", new Date().getTime() + 18000);
         socket.emit("send song");
@@ -83,7 +83,7 @@ export default function SongGuessr() {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [targetTime]);
+  }, [targetTime, isCorrect]);
 
   socket.on("time target", (data) => {
     setTargetTime(data);
