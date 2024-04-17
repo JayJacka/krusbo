@@ -8,7 +8,7 @@ export const authRouter = createTRPCRouter({
     if (!userId) {
       return null;
     }
-    const user = await ctx.db.user2.findFirst({
+    const user = await ctx.db.user.findFirst({
       where: {
         id: userId,
       },
@@ -34,7 +34,7 @@ export const authRouter = createTRPCRouter({
       if (!userId) {
         return null;
       }
-      const user = await ctx.db.user2.create({
+      const user = await ctx.db.user.create({
         data: {
           id: userId,
           nickname: input.nickname,
@@ -55,7 +55,7 @@ export const authRouter = createTRPCRouter({
       if (!userId) {
         return null;
       }
-      const user = await ctx.db.user2.update({
+      const user = await ctx.db.user.update({
         where: {
           id: userId,
         },

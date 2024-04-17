@@ -11,38 +11,9 @@ datasource db {
     directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
-model User {
-    id        String    @id @default(cuid())
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    email     String    @unique
-    name      String?
-    messages  Message[]
-    groups    Group[]
-}
 
-model User2{
+model User{
     id          String  @unique
     avatar      String
     nickname    String  @default("")
-}
-
-model Message {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    content   String
-    author    User     @relation(fields: [authorId], references: [id])
-    authorId  String
-    group     Group    @relation(fields: [groupId], references: [id])
-    groupId   String
-}
-
-model Group {
-    id        String    @id @default(cuid())
-    createdAt DateTime  @default(now())
-    updatedAt DateTime  @updatedAt
-    name      String
-    users     User[]
-    messages  Message[]
 }
