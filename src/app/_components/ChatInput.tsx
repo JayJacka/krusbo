@@ -4,8 +4,10 @@ import { socket } from "~/socket";
 
 export default function ChatInput({ withUser }: { withUser: string }) {
 	const [message, setMessage] = useState("");
+
 	function sendMessage() {
 		socket.emit("private message", {
+			from: socket.userID,
 			content: message,
 			to: withUser,
 		});

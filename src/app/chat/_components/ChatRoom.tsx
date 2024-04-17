@@ -1,15 +1,16 @@
 "use client";
 import ChatInput from "../../_components/ChatInput";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import MessageCard from "../../_components/MessageCard";
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { socket } from "~/socket";
 
 export type Message = {
-  content: string;
-  from: string;
-  to: string;
+	content: string;
+	from: string;
+	to: string;
+	id: string;
 };
 export default function ChatRoom({
 	withUser,
@@ -19,11 +20,18 @@ export default function ChatRoom({
 	//  const [messages, setMessages] = useState<RecentMessage[]>([]);
 	const [messages, setMessages] = useState<Message[]>([]);
 
-	socket.on("private message", (msg: Message) => {
-		if ((msg.from === withUser || msg.from === socket.auth.userID) && (msg.to === withUser || msg.to === socket.auth.userID)) {
-			setMessages((prev) => [...prev, msg]);
-		}
-	});
+	useEffect(() => {
+		socket.on("private message", (msg: Message) => {
+			console.log(msg, withUser);
+			if (msg.from === withUser || msg.to === withUser) {
+				setMessages((prev) => [...prev, msg]);
+			}
+		});
+		return () => {
+			socket.off("private message");
+		};
+	}, [withUser]);
+
 	const chatContainerRef = useRef<HTMLDivElement>(null);
 
 	return (
@@ -39,7 +47,7 @@ export default function ChatRoom({
 				>
 					{messages.map((message) => (
 						<MessageCard
-							key={message.from}
+							key={message.id}
 							isMe={message.from !== withUser}
 							message={message.content}
 						/>

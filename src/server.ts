@@ -66,7 +66,7 @@ app.prepare().then(() => {
 	io.on("connection", (socket) => {
 		onlineUsers.add(socket.userID);
 		io.emit("onlineUsers", Array.from(onlineUsers));
-
+		socket.join(socket.userID);
 		socket.emit("session", {
 			sessionID: socket.sessionID,
 			userID: socket.userID,
@@ -79,7 +79,14 @@ app.prepare().then(() => {
 		socket.on(
 			"private message",
 			(arg: { content: string; to: string; from: string }) => {
-				socket.to(arg.to).emit("private message", arg);
+				const message = {
+					content: arg.content,
+					from: socket.userID,
+					to: arg.to,
+          id: randomUUID(),
+				};
+				socket.to(arg.to).to(socket.userID).emit("private message", message);
+				socket.to(arg.from).to(arg.to).emit("private message", message);
 			},
 		);
 
