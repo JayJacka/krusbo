@@ -1,21 +1,15 @@
 import axios, { AxiosResponse } from "axios";
 import { useEffect, useState } from "react";
-import { MyDataFormat, TrackDetail } from "~/app/songguessr/type";
+import { PlaylistTracks, TrackDetail } from "~/app/songguessr/type";
 import getSpotifyToken from "./getSpotifyToken";
 
-const playlistLists = [
-    "6H6DccZQ0NFw7rDaYu5h10",
-    "37i9dQZF1DXc51TI5dx7RC",
-
-]
-
-export default async function RandomSong(){
+export async function FetchSongPlaylist(id: string){
     let songList: TrackDetail[] = [];
     const token = (await getSpotifyToken()).access_token;
 
-    const url = "https://api.spotify.com/v1/playlists/" + playlistLists[0];
+    const url = "https://api.spotify.com/v1/playlists/" + id;
     const fetchSongPlaylist = async () => {
-        const response:AxiosResponse<MyDataFormat> = await axios.get(url, 
+        const response:AxiosResponse<PlaylistTracks> = await axios.get(url, 
             {
                 headers: {
                     'Authorization': `Bearer ${token}`
@@ -24,10 +18,10 @@ export default async function RandomSong(){
             );
             return response.data;
         }
-        
-    const data: MyDataFormat = await fetchSongPlaylist();
+    
+    const data: PlaylistTracks = await fetchSongPlaylist();
     console.log(data);
-
+    
     if (data && data.tracks && data.tracks.items) {
         const tracks = data.tracks.items
         .map(track => ({
@@ -37,7 +31,10 @@ export default async function RandomSong(){
         .filter(track => track.preview_url !== null);
         songList = tracks;
     }
+    return songList;        
+}
 
+export function RandomSong(songList: TrackDetail[]){
     const randomIndices: number[] = [];
     while (randomIndices.length < 4 && randomIndices.length < songList.length){
         const randomIndex = Math.floor(Math.random() * songList.length);
