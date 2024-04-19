@@ -29,7 +29,6 @@ export default function MessageCard({
           !isMe ? "items-start" : "items-end"
         }`}
       >
-        {/* <div className="text-[24px] text-white">{message}</div> */}
         <div
           className={`flex items-center gap-2 ${
             !isMe ? "justify-start" : "justify-end"
