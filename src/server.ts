@@ -1,7 +1,7 @@
 import { createServer } from "node:http";
 import next from "next";
 import { Server } from "socket.io";
-import {FetchSongPlaylist,RandomSong} from "./utils/randomSong";
+import { FetchSongPlaylist, RandomSong } from "./utils/randomSong";
 import { TrackDetail } from "./app/songguessr/type";
 import { randomUUID } from "node:crypto";
 
@@ -38,42 +38,33 @@ app.prepare().then(() => {
 		next();
 	});
 
-  io.on("connection", (socket) => {
-    socket.emit("your id", socket.id);
-    socket.on("send message", body => {
-      io.emit("message", body)
-    })
-
-    socket.on("start game", async (body) => {
-      songList = await FetchSongPlaylist(body);
-      const {song, choices} = RandomSong(songList);
-
-      io.emit("game started")
-      io.emit("song", song)
-      io.emit("choices", choices)
-    })
-
-    socket.on("send time target", (body) => {
-      io.emit("time target", body)
-    })
-
-    socket.on("send song", () => {
-      const {song, choices} = RandomSong(songList);
-      io.emit("song", song)
-      io.emit("choices", choices)
-    })
-  })
 	io.on("connection", (socket) => {
+		socket.emit("your id", socket.id);
+
+		socket.on("start game", async (body) => {
+			songList = await FetchSongPlaylist(body);
+			const { song, choices } = RandomSong(songList);
+
+			io.emit("game started");
+			io.emit("song", song);
+			io.emit("choices", choices);
+		});
+
+		socket.on("send time target", (body) => {
+			io.emit("time target", body);
+		});
+
+		socket.on("send song", () => {
+			const { song, choices } = RandomSong(songList);
+			io.emit("song", song);
+			io.emit("choices", choices);
+		});
 		onlineUsers.add(socket.userID);
 		io.emit("onlineUsers", Array.from(onlineUsers));
 		socket.join(socket.userID);
 		socket.emit("session", {
 			sessionID: socket.sessionID,
 			userID: socket.userID,
-		});
-
-		socket.on("send message", (arg) => {
-			io.emit("message", arg);
 		});
 
 		socket.on(
@@ -85,7 +76,7 @@ app.prepare().then(() => {
 					to: arg.to,
 					id: randomUUID(),
 				};
-				socket.emit("private message", message);
+				io.emit("private message", message);
 			},
 		);
 
@@ -94,7 +85,6 @@ app.prepare().then(() => {
 			io.emit("onlineUsers", Array.from(onlineUsers));
 		});
 	});
-
 	httpServer.once("error", (err) => {
 		console.error(err);
 		process.exit(1);
