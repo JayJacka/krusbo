@@ -27,6 +27,7 @@ export default function ChatRoom({
 				setMessages((prev) => [...prev, msg]);
 			}
 		});
+		
 		return () => {
 			socket.off("private message");
 		};

@@ -83,10 +83,9 @@ app.prepare().then(() => {
 					content: arg.content,
 					from: socket.userID,
 					to: arg.to,
-          id: randomUUID(),
+					id: randomUUID(),
 				};
-				socket.to(arg.to).to(socket.userID).emit("private message", message);
-				socket.to(arg.from).to(arg.to).emit("private message", message);
+				socket.emit("private message", message);
 			},
 		);
 
