@@ -17,7 +17,6 @@ export default function ChatRoom({
 }: {
 	withUser: string;
 }) {
-	//  const [messages, setMessages] = useState<RecentMessage[]>([]);
 	const [messages, setMessages] = useState<Message[]>([]);
 
 	useEffect(() => {

@@ -7,7 +7,6 @@ export default function ChatInput({ withUser }: { withUser: string }) {
 
 	function sendMessage() {
 		socket.emit("private message", {
-			from: socket.userID,
 			content: message,
 			to: withUser,
 		});
