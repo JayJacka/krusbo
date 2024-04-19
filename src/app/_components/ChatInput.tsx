@@ -11,6 +11,7 @@ export default function ChatInput({ withUser }: { withUser: string }) {
 			content: message,
 			to: withUser,
 		});
+		setMessage("");
 	}
 	return (
 		<form
