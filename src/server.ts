@@ -51,9 +51,14 @@ app.prepare().then(() => {
       }
   
       const usersInRoom = allUsers.get(room)!;
+      if (usersInRoom.includes(socket.id)) {
+          return;
+      }
       usersInRoom.push(socket.id);
-
       socket.join(room);
+      
+      const rooms = ParsingRooms(allUsers);
+      socket.emit("all rooms", rooms);
     })
 
     socket.on('leave room', (room: string) => {
