@@ -28,8 +28,8 @@ export default function SongGuessr({ params }: { params: { roomName: string } })
     }, []);
 
     const handleStart = () =>{
-        socket.emit("start game", selectedPlaylist);
-        socket.emit("send time target", new Date().getTime() + 18000);
+        socket.emit("start game", selectedPlaylist, params.roomName);
+        socket.emit("send time target", new Date().getTime() + 18000, params.roomName);
     };
 
     const handleGameEnd = () => {
@@ -73,8 +73,8 @@ export default function SongGuessr({ params }: { params: { roomName: string } })
             }
             else if (targetTime != 0){
                 setWaitingForNextQuestion(false);
-                socket.emit("send time target", new Date().getTime() + 18000);
-                socket.emit("send song");
+                socket.emit("send time target", new Date().getTime() + 18000, params.roomName);
+                socket.emit("send song", params.roomName);
                 setNumQuestions(numQuestions + 1);
             }
         }, 1000);

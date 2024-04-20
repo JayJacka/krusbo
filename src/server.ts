@@ -102,24 +102,25 @@ app.prepare().then(() => {
       allUsers.get(room) || []
     })
 
-		socket.on("start game", async (body) => {
-			songList = await FetchSongPlaylist(body);
+		socket.on("start game", async (playlist, room) => {
+			songList = await FetchSongPlaylist(playlist);
 			const { song, choices } = RandomSong(songList);
 
-			io.emit("game started");
-			io.emit("song", song);
-			io.emit("choices", choices);
+			io.to(room).emit("game started");
+			io.to(room).emit("song", song);
+			io.to(room).emit("choices", choices);
 		});
 
-		socket.on("send time target", (body) => {
-			io.emit("time target", body);
+		socket.on("send time target", (targetTime, room) => {
+			io.to(room).emit("time target", targetTime);
 		});
 
-		socket.on("send song", () => {
+		socket.on("send song", (room) => {
 			const { song, choices } = RandomSong(songList);
-			io.emit("song", song);
-			io.emit("choices", choices);
+			io.to(room).emit("song", song);
+			io.to(room).emit("choices", choices);
 		});
+
 		onlineUsers.add(socket.userID);
 		io.emit("onlineUsers", Array.from(onlineUsers));
 		socket.join(socket.userID);
