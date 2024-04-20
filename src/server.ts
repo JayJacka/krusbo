@@ -94,7 +94,7 @@ app.prepare().then(() => {
       socket.emit("all rooms", rooms);
     })
 
-    socket.on("send message to room", ({room, message}) => {
+    socket.on("send group message", ({room, message}) => {
       io.to(room).emit("message", message)
     })
 
@@ -120,6 +120,20 @@ app.prepare().then(() => {
 			io.to(room).emit("song", song);
 			io.to(room).emit("choices", choices);
 		});
+
+		socket.on(
+			"send group message", 
+			(content:string, room:string) => {
+				const message = {
+					content: content,
+					from: socket.id,
+					room: room,
+					id: randomUUID(),
+				};
+				console.log(message)
+				io.to(room).emit("group message", message);
+			},
+		);
 
 		onlineUsers.add(socket.userID);
 		io.emit("onlineUsers", Array.from(onlineUsers));
