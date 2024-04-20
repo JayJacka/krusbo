@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { set, z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
@@ -10,16 +10,32 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRocket } from "@fortawesome/free-solid-svg-icons";
 import AvatarRandom from "./AvatarRandom";
 import { api } from "~/trpc/react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { time } from "console";
 
 export function UserDataForm() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+  const createUser = api.auth.createUser.useMutation();
+  const userDataQuery = api.auth.me.useQuery();
+
+  useEffect(() => {
+    if (!userDataQuery.isLoading) {
+      const userData = userDataQuery.data;
+      if (userData?.nickname && userData?.avatar) {
+        router.push("/search");
+      }
+      setTimeout(() => setIsLoading(false), 500);
+    }
+  }, [userDataQuery]);
+
   const formSchema = z.object({
     avatar: z.string(),
     nickname: z.string().min(2, {
       message: "Username must be at least 2 characters.",
     }),
   });
-
-  const createUser = api.auth.createUser.useMutation();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,14 +50,19 @@ export function UserDataForm() {
       avatar: data.avatar,
       nickname: data.nickname,
     };
+    if (props.avatar === "" || props.nickname === "") {
+      return;
+    }
     await createUser.mutateAsync(props);
+    router.push("/search");
   }
 
   function handleAvatar(avatar: string) {
     form.setValue("avatar", avatar);
   }
-
-  return (
+  return isLoading ? (
+    <div></div>
+  ) : (
     <div>
       <Form {...form}>
         <div className="flex flex-col items-center gap-3">

@@ -1,5 +1,8 @@
-"use client"
+"use client";
 import { ScrollArea } from "~/components/ui/scroll-area";
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the CSS
+config.autoAddCss = false;
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEarthAmerica,
@@ -15,21 +18,22 @@ import EditProfileDialog from "./_components/EditProfileDialog";
 import { socket } from "~/socket";
 import { useEffect, useState } from "react";
 import { GroupDetail } from "./type";
+import Link from "next/link";
 
 export default function search() {
   const [allRooms, setAllRooms] = useState<GroupDetail[]>([]);
-  
+
   useEffect(() => {
-    socket.emit('get rooms');
+    socket.emit("get rooms");
   }, []);
 
   useEffect(() => {
-    socket.on('all rooms', (rooms: GroupDetail[]) => {
+    socket.on("all rooms", (rooms: GroupDetail[]) => {
       setAllRooms(rooms);
     });
-    return () => { 
-      socket.off('all rooms');
-    }
+    return () => {
+      socket.off("all rooms");
+    };
   }, [socket]);
 
   const mockData = [
@@ -70,19 +74,14 @@ export default function search() {
       name: "Pim",
     },
   ];
-  
+
   return (
     <div className="flex h-screen w-screen flex-row gap-11 bg-primary p-9">
       <div className="flex h-full w-[278px] flex-col items-center justify-start gap-5 rounded-xl bg-black p-6">
         <div className="flex flex-col items-center justify-center gap-1">
           <div className="text-white">
             <div className="flex flex-row items-center justify-center gap-3">
-              <FontAwesomeIcon
-                icon={faFire}
-                className="text-red"
-                width={40}
-                height={40}
-              />
+              <FontAwesomeIcon icon={faFire} className="text-[40px] text-red" />
               <div className="text-[32px] text-white">Online User</div>
             </div>
           </div>
@@ -92,7 +91,9 @@ export default function search() {
           <div className="flex h-full w-full flex-col gap-5">
             {mockData.map((data) => {
               return (
-                <UserCard index={data.id} name={data.name} key={data.id} />
+                <Link href={`/chat/${data.id}`} key={data.id}>
+                  <UserCard index={data.id} name={data.name} key={data.id} />
+                </Link>
               );
             })}
           </div>
@@ -104,13 +105,10 @@ export default function search() {
             <div className="flex flex-row items-center gap-4">
               <FontAwesomeIcon
                 icon={faEarthAmerica}
-                width={40}
-                height={40}
-                className="flex items-center justify-center text-blue"
+                className="flex items-center justify-center text-[40px] text-blue"
               />
               <div className="text-[36px]">Global Group</div>
             </div>
-            {/* profile */}
             <EditProfileDialog />
           </div>
           <div className="flex h-full flex-col gap-4">
@@ -126,28 +124,8 @@ export default function search() {
             </ScrollArea>
           </div>
         </div>
-        <div className="absolute bottom-0 flex w-full justify-between">
+        <div className="absolute bottom-0 flex w-full justify-end">
           <CreateGroupDialog />
-          <div className="flex gap-4">
-            <button className="flex flex-row items-center justify-center gap-3 rounded-xl border bg-none px-4 py-2">
-              <FontAwesomeIcon
-                icon={faMessage}
-                width={24}
-                height={24}
-                className="text-white"
-              />
-              <div className="h6 lg:h4 text-white">My Group</div>
-            </button>
-            <button className="flex flex-row items-center justify-center gap-3 rounded-xl bg-pink px-4 py-2">
-              <FontAwesomeIcon
-                icon={faRocket}
-                width={24}
-                height={24}
-                className="text-white"
-              />
-              <div className="h6 lg:h4 text-white">My Group</div>
-            </button>
-          </div>
         </div>
       </div>
     </div>

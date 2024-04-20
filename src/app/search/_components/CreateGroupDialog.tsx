@@ -21,14 +21,12 @@ export default function CreateGroupDialog() {
       <DialogTrigger className="flex flex-row items-center justify-center gap-3 rounded-xl bg-yellow px-4 py-2">
         <FontAwesomeIcon
           icon={faPlusCircle}
-          width={24}
-          height={24}
-          className="text-primary"
+          className="text-[24px] text-primary"
         />
         <div className="h6 lg:h4 text-primary">Create Your Group</div>
       </DialogTrigger>
       <DialogContent className="flex h-[256px] w-[512px] flex-col items-center justify-between gap-3 border-none bg-secondary p-6">
-        <CreateGroupForm closeDialog={closeDialog}/>
+        <CreateGroupForm closeDialog={closeDialog} />
       </DialogContent>
     </Dialog>
   );
