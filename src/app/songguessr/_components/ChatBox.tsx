@@ -7,20 +7,23 @@ import { socket } from "~/socket";
 
 export function ChatBox({ room }: { room: string }){
     const [messages, setMessages] = useState<GroupMessage[]>([]);
+    const chatContainerRef = useRef<HTMLDivElement>(null);
     
     useEffect(() => {
-        console.log("hii")
 		socket.on("group message", (msg: GroupMessage) => {
-			console.log(msg, room);
 			setMessages((prev) => [...prev, msg]);
 		});
-		
+
+        chatContainerRef.current?.scrollIntoView({
+            behavior: "smooth",
+          });
+
 		return () => {
 			socket.off("group message");
 		};
 	}, [socket]);
 
-    const chatContainerRef = useRef<HTMLDivElement>(null);
+    
     return <div className="flex w-full flex-col gap-3">
             <ScrollArea ref={chatContainerRef} className="bg-blue-200 flex flex-1 flex-col gap-8 overflow-y-auto px-6 py-4 max-h-40">
                 {messages.map((message) => (
