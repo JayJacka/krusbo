@@ -10,7 +10,7 @@ export default function CardGroup(data: GroupDetail) {
   }
 
   return (
-    <Link href={"../songguessr"} onClick={joinRoom} className="flex h-[54px] flex-row items-center justify-between rounded-lg bg-input px-3 py-2 cursor-pointer">
+    <Link href={`../songguessr/${data.name}`} onClick={joinRoom} className="flex h-[54px] flex-row items-center justify-between rounded-lg bg-input px-3 py-2 cursor-pointer">
       <div className="h4 text-grey">{data.name}</div>
       <div className="flex flex-row items-center gap-2">
         <FontAwesomeIcon

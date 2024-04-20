@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useState } from "react";
 import { CategoryWithPlaylists, TrackDetail } from "../type";
 import { fetchPlaylists } from "../utils/fetchPlaylists";
@@ -5,7 +6,6 @@ import { socket } from "~/socket";
 import { PlaylistSelection } from "../_components/PlaylistSelection";
 import { Button } from "~/components/ui/button";
 import { QuestionContainer } from "../_components/QuestionContainer";
-import { io } from "socket.io-client";
 
 export default function SongGuessr({ params }: { params: { roomName: string } }){
     const [gameStarted,setGameStarted] = useState(false);
