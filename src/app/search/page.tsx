@@ -1,3 +1,4 @@
+"use client"
 import { ScrollArea } from "~/components/ui/scroll-area";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -6,13 +7,31 @@ import {
   faMessage,
   faRocket,
 } from "@fortawesome/free-solid-svg-icons";
-import CreateGroupDialog from "./_components/create-group-dialog";
-import CardGroup from "./_components/card-group";
+import CreateGroupDialog from "./_components/CreateGroupDialog";
+import CardGroup from "./_components/CardGroup";
 import { UserCard } from "../_components/userCard";
 
 import EditProfileDialog from "./_components/EditProfileDialog";
+import { socket } from "~/socket";
+import { useEffect, useState } from "react";
+import { GroupDetail } from "./type";
 
 export default function search() {
+  const [allRooms, setAllRooms] = useState<GroupDetail[]>([]);
+  
+  useEffect(() => {
+    socket.emit('get rooms');
+  }, []);
+
+  useEffect(() => {
+    socket.on('all rooms', (rooms: GroupDetail[]) => {
+      setAllRooms(rooms);
+    });
+    return () => { 
+      socket.off('all rooms');
+    }
+  }, [socket]);
+
   const mockData = [
     {
       id: 1,
@@ -51,119 +70,7 @@ export default function search() {
       name: "Pim",
     },
   ];
-  const mockGroup = [
-    {
-      id: 1,
-      name: "Play4U",
-      participant: 4,
-    },
-    {
-      id: 2,
-      name: "Singler",
-      participant: 4,
-    },
-    {
-      id: 3,
-      name: "ChatOnly",
-      participant: 4,
-    },
-
-    {
-      id: 4,
-      name: "BabyU",
-      participant: 4,
-    },
-    {
-      id: 5,
-      name: "GuessMe",
-      participant: 4,
-    },
-    {
-      id: 6,
-      name: "Weight",
-      participant: 4,
-    },
-    {
-      id: 7,
-      name: "OverLook",
-      participant: 4,
-    },
-    {
-      id: 8,
-      name: "Typer",
-      participant: 4,
-    },
-    {
-      id: 9,
-      name: "SharkFight",
-      participant: 4,
-    },
-    {
-      id: 10,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-    {
-      id: 11,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-    {
-      id: 12,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-    {
-      id: 13,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-    {
-      id: 14,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-    {
-      id: 15,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-    {
-      id: 16,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-    {
-      id: 17,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-    {
-      id: 18,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-    {
-      id: 19,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-    {
-      id: 20,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-    {
-      id: 21,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-    {
-      id: 22,
-      name: "SleepplyMak",
-      participant: 4,
-    },
-  ];
+  
   return (
     <div className="flex h-screen w-screen flex-row gap-11 bg-primary p-9">
       <div className="flex h-full w-[278px] flex-col items-center justify-start gap-5 rounded-xl bg-black p-6">
@@ -208,12 +115,12 @@ export default function search() {
           </div>
           <div className="flex h-full flex-col gap-4">
             <div className="h4 text-grey">
-              {mockGroup.length} Group available
+              {allRooms.length} Group available
             </div>
             <ScrollArea>
               <div className="flex flex-col gap-4">
-                {mockGroup.map((data) => {
-                  return <CardGroup key={data.id} {...data} />;
+                {allRooms.map((room) => {
+                  return <CardGroup key={room.name} {...room} />;
                 })}
               </div>
             </ScrollArea>

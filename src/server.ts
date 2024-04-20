@@ -3,6 +3,7 @@ import next from "next";
 import { Server } from "socket.io";
 import { FetchSongPlaylist, RandomSong } from "./utils/randomSong";
 import { TrackDetail } from "./app/songguessr/type";
+import { ParsingRooms } from "./utils/parsingRoomDetail";
 import { randomUUID } from "node:crypto";
 
 const dev = process.env.NODE_ENV !== "production";
@@ -12,7 +13,7 @@ const port = 3000;
 let songList: TrackDetail[] = [];
 const app = next({ dev, hostname, port });
 const handler = app.getRequestHandler();
-
+let allUsers = new Map<string, string[]>();
 // In-memory session store
 const sessionStore = new Map();
 
@@ -38,27 +39,88 @@ app.prepare().then(() => {
 		next();
 	});
 
-	io.on("connection", (socket) => {
-		socket.emit("your id", socket.id);
+  io.on("connection", (socket) => {
+    socket.emit("your id", socket.id);
+    socket.on("send message", body => {
+      io.emit("message", body)
+    })
+    
+    socket.on("join room", (room) => {
+      if (!allUsers.has(room)) {
+        allUsers.set(room, []);
+      }
+  
+      const usersInRoom = allUsers.get(room)!;
+      if (usersInRoom.includes(socket.id)) {
+          return;
+      }
+      usersInRoom.push(socket.id);
+      socket.join(room);
+      
+      const rooms = ParsingRooms(allUsers);
+      socket.emit("all rooms", rooms);
+    })
 
-		socket.on("start game", async (body) => {
-			songList = await FetchSongPlaylist(body);
+    socket.on('leave room', (room: string) => {
+      if (allUsers.has(room)) {
+          const usersInRoom = allUsers.get(room)!;
+          const index = usersInRoom.indexOf(socket.id);
+          if (index !== -1) {
+              usersInRoom.splice(index, 1);
+          }
+      }
+    });
+
+    socket.on('create room', (roomName: string) => {
+      // Check if the room already exists
+      if (!io.sockets.adapter.rooms.has(roomName)) {
+          // Create the room
+          socket.join(roomName);
+          console.log(`Room "${roomName}" created`);
+          allUsers.set(roomName, [socket.id]);
+
+          const rooms = ParsingRooms(allUsers);
+          socket.emit("all rooms", rooms);
+          io.emit('room created', roomName);
+      } else {
+          console.log(`Room "${roomName}" already exists`);
+          // Optionally, send an error message to the client
+          socket.emit('error', 'Room already exists');
+      }
+  });
+
+    socket.on("get rooms", () => {
+      const rooms = ParsingRooms(allUsers);
+      socket.emit("all rooms", rooms);
+    })
+
+    socket.on("send message to room", ({room, message}) => {
+      io.to(room).emit("message", message)
+    })
+
+    socket.on("get users in room", (room) => {
+      allUsers.get(room) || []
+    })
+
+		socket.on("start game", async (playlist, room) => {
+			songList = await FetchSongPlaylist(playlist);
 			const { song, choices } = RandomSong(songList);
 
-			io.emit("game started");
-			io.emit("song", song);
-			io.emit("choices", choices);
+			io.to(room).emit("game started");
+			io.to(room).emit("song", song);
+			io.to(room).emit("choices", choices);
 		});
 
-		socket.on("send time target", (body) => {
-			io.emit("time target", body);
+		socket.on("send time target", (targetTime, room) => {
+			io.to(room).emit("time target", targetTime);
 		});
 
-		socket.on("send song", () => {
+		socket.on("send song", (room) => {
 			const { song, choices } = RandomSong(songList);
-			io.emit("song", song);
-			io.emit("choices", choices);
+			io.to(room).emit("song", song);
+			io.to(room).emit("choices", choices);
 		});
+
 		onlineUsers.add(socket.userID);
 		io.emit("onlineUsers", Array.from(onlineUsers));
 		socket.join(socket.userID);
