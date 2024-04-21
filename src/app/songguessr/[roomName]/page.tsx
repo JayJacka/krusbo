@@ -126,8 +126,12 @@ export default function SongGuessr({
             height={32}
           />
         </Button>
-        <LeaderBoard score={score} />
-        <div className="flex h-2/5">Chat</div>
+        {gameStarted && <LeaderBoard score={score} />}
+        <div className="w-full p-8">
+          <div className="flex max-w-96 justify-start">
+            <ChatBox room={params.roomName} />
+          </div>
+        </div>
       </div>
       <div className="flex h-screen w-1/2 flex-col items-center justify-center ">
         <div className="text-white">score: {score}</div>
@@ -185,11 +189,6 @@ export default function SongGuessr({
         </div>
       </div>
       <div className="flex w-1/4 text-white">Member</div>
-            <div className="w-full p-8">
-                <div className="max-w-96 flex justify-start">
-                    <ChatBox room={params.roomName}/>
-                </div>
-            </div>
     </div>
   );
 }
