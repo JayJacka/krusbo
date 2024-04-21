@@ -38,15 +38,14 @@ export default function SongGuessr({
   const [song, setSong] = useState<TrackDetail>();
   const [userScore, setUserScore] = useState<userScore[]>([]);
   const [userNameImage, setUserNameImage] = useState<userNameImage[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const [userData, setUserData] = useState<leaderProps[]>([]);
   const userDataQuery = api.auth.me.useQuery();
+  const [scoreChange, setScoreChange] = useState(0);
 
   useEffect(() => {
     if (!userDataQuery.isLoading) {
       const userData = userDataQuery.data;
       if (userData?.nickname && userData?.avatar && userData?.id) {
-        console.log("set Image Sent");
         socket.emit(
           "set user data",
           params.roomName,
@@ -54,13 +53,6 @@ export default function SongGuessr({
           userData.nickname,
           userData.avatar,
         );
-        console.log(
-          params.roomName,
-          userData.id,
-          userData.nickname,
-          userData.avatar,
-        );
-        console.log("get userData Sent");
         socket.emit("get user data", params.roomName);
       }
     }
@@ -70,7 +62,6 @@ export default function SongGuessr({
     if (!userDataQuery.isLoading) {
       const userData = userDataQuery.data;
       if (userData?.nickname && userData?.avatar && userData?.id) {
-        console.log(score);
         socket.emit("change score", params.roomName, userData.id, score);
       }
     }
@@ -117,6 +108,13 @@ export default function SongGuessr({
 
   const handleIsCorrect = (isCorrect: boolean) => {
     setIsCorrect(isCorrect);
+    if (isCorrect) {
+      setScore(score + 100 * Math.round(((timeLeft - 2) / 15) * 10));
+      setScoreChange(100 * Math.round(((timeLeft - 2) / 15) * 10));
+    } else {
+      setScore(score);
+      setScoreChange(0);
+    }
   };
 
   useEffect(() => {
@@ -135,7 +133,6 @@ export default function SongGuessr({
 
         setTimeLeft(18);
         setWaitingForNextQuestion(true);
-        isCorrect ? setScore(score + 100) : setScore(score);
       } else if (targetTime != 0) {
         setIsCorrect(false);
         setWaitingForNextQuestion(false);
@@ -150,7 +147,7 @@ export default function SongGuessr({
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, [targetTime, isCorrect]);
+  }, [targetTime]);
 
   socket.on("time target", (data) => {
     setTargetTime(data);
@@ -171,7 +168,6 @@ export default function SongGuessr({
             score: value.score,
           };
         });
-        console.log("User score receive", usersScore);
         setUserScore(usersScore);
       },
     );
@@ -191,7 +187,6 @@ export default function SongGuessr({
             image: value.image,
           };
         });
-        console.log("User data receive", usersImage);
         setUserNameImage(usersImage);
       },
     );
@@ -228,13 +223,10 @@ export default function SongGuessr({
       });
     });
     setUserData(mergedList);
-    console.log("Merge list", mergedList);
   }, [userScore, userNameImage]);
 
   useEffect(() => {
-    console.log("Get score Sent");
     socket.emit("get score", params.roomName);
-    console.log("Get Image Sent");
     socket.emit("get user data", params.roomName);
   }, [socket]);
 
@@ -294,7 +286,7 @@ export default function SongGuessr({
               <h3 className="text-grey">Question: {numQuestions} from 5</h3>
             </div>
           )}
-          {waitingForNextQuestion && (
+          {gameStarted && waitingForNextQuestion && (
             <h2 className="font-2xl text-white">Waiting for next question</h2>
           )}
           {!waitingForNextQuestion && gameStarted && (
@@ -305,11 +297,12 @@ export default function SongGuessr({
             />
           )}
           {waitingForNextQuestion &&
+            gameStarted &&
             (isCorrect ? (
               <div className="flex flex-col rounded-lg bg-blue-100 p-4 opacity-100">
                 <p className="text-grey"> Correct answer: {song?.name}</p>
                 <p className="text-4xl text-green"> Correct</p>
-                <p className="text-yellow"> + {100} points</p>
+                <p className="text-yellow"> + {scoreChange} points</p>
               </div>
             ) : (
               <div className="flex flex-col rounded-lg bg-blue-100 p-4 opacity-100">
