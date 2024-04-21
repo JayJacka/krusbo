@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { createTRPCRouter, publicProcedure } from "../trpc";
 import { auth } from "@clerk/nextjs";
+import { error } from "console";
 
 export const authRouter = createTRPCRouter({
   me: publicProcedure.query(async ({ ctx }) => {
@@ -64,6 +65,23 @@ export const authRouter = createTRPCRouter({
           avatar: input.avatar,
         },
       });
+      return user;
+    }),
+  getUserById: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+      }),
+    )
+    .query(async ({ ctx, input }) => {
+      const user = await ctx.db.user.findFirst({
+        where: {
+          id: input.userId,
+        },
+      });
+      if (!user) {
+        throw new Error("User not found");
+      }
       return user;
     }),
 });
