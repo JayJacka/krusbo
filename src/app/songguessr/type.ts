@@ -54,3 +54,11 @@ export interface CategoryWithPlaylists{
     name: string;
     playlists: PlaylistItem[];
 }
+
+export type GroupMessage = {
+    content: string;
+    from: string;
+    room: string;
+    id: string;
+
+}

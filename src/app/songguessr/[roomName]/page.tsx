@@ -6,6 +6,7 @@ import { socket } from "~/socket";
 import { PlaylistSelection } from "../_components/PlaylistSelection";
 import { Button } from "~/components/ui/button";
 import { QuestionContainer } from "../_components/QuestionContainer";
+import { ChatBox } from "../_components/ChatBox";
 
 export default function SongGuessr({ params }: { params: { roomName: string } }){
     const [gameStarted,setGameStarted] = useState(false);
@@ -116,6 +117,11 @@ export default function SongGuessr({ params }: { params: { roomName: string } })
                         <p className="text-red text-4xl"> Incorrect</p>
                     </div>
                 )}
+            </div>
+            <div className="w-full p-8">
+                <div className="max-w-96 flex justify-start">
+                    <ChatBox room={params.roomName}/>
+                </div>
             </div>
         </div>
     );
