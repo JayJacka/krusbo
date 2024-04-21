@@ -102,6 +102,15 @@ app.prepare().then(() => {
       allUsers.get(room) || []
     })
 
+	socket.on("get room",(roomName : string)=>{
+		const room = io.sockets.adapter.rooms.get(roomName)
+		if(!room){
+			socket.emit("room",room)
+		}else{
+			socket.emit("error",`Doesn't have room name ${roomName}`)
+		}
+	})
+
 		socket.on("start game", async (playlist, room) => {
 			songList = await FetchSongPlaylist(playlist);
 			const { song, choices } = RandomSong(songList);
