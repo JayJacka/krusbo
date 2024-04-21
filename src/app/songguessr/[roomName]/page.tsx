@@ -283,7 +283,7 @@ export default function SongGuessr({
                   Time remaining: {timeLeft - 3} seconds
                 </p>
               )}
-              <h3 className="text-grey">Question: {numQuestions} from 5</h3>
+              <h3 className="text-grey">Question: {numQuestions} from 10</h3>
             </div>
           )}
           {gameStarted && waitingForNextQuestion && (
