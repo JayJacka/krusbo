@@ -61,15 +61,26 @@ export type ScoreCardProps = {
   score: number;
 };
 
-export type ScoreProps = {
+export type userScore = {
+  userId: string;
   score: number;
 };
 
+export type userNameImage = {
+  userId: string;
+  name: string;
+  image: string;
+};
+
+export type leaderProps = {
+  name: string;
+  avatar: string;
+  score: number;
+};
 
 export type GroupMessage = {
-    content: string;
-    from: string;
-    room: string;
-    id: string;
-
-}
+  content: string;
+  from: string;
+  room: string;
+  id: string;
+};

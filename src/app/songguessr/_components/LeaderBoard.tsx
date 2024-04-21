@@ -1,15 +1,15 @@
 import { faRankingStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ScrollArea } from "~/components/ui/scroll-area";
-import { ScoreCardProps, ScoreProps } from "../type";
+import { ScoreCardProps, leaderProps } from "../type";
 
-export default function LeaderBoard(props: ScoreProps) {
+export default function LeaderBoard({ props }: { props: leaderProps[] }) {
   const mockData = [
     {
       avatar:
         "data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20120%20120%22%20fill%3D%22none%22%20shape-rendering%3D%22auto%22%20width%3D%22128%22%20height%3D%22128%22%3E%3Cmetadata%20xmlns%3Ardf%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2F02%2F22-rdf-syntax-ns%23%22%20xmlns%3Axsi%3D%22http%3A%2F%2Fwww.w3.org%2F2001%2FXMLSchema-instance%22%20xmlns%3Adc%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Felements%2F1.1%2F%22%20xmlns%3Adcterms%3D%22http%3A%2F%2Fpurl.org%2Fdc%2Fterms%2F%22%3E%3Crdf%3ARDF%3E%3Crdf%3ADescription%3E%3Cdc%3Atitle%3EBottts%3C%2Fdc%3Atitle%3E%3Cdc%3Acreator%3EPablo%20Stanley%3C%2Fdc%3Acreator%3E%3Cdc%3Asource%20xsi%3Atype%3D%22dcterms%3AURI%22%3Ehttps%3A%2F%2Fbottts.com%2F%3C%2Fdc%3Asource%3E%3Cdcterms%3Alicense%20xsi%3Atype%3D%22dcterms%3AURI%22%3Ehttps%3A%2F%2Fbottts.com%2F%3C%2Fdcterms%3Alicense%3E%3Cdc%3Arights%3ERemix%20of%20%E2%80%9EBottts%E2%80%9D%20(https%3A%2F%2Fbottts.com%2F)%20by%20%E2%80%9EPablo%20Stanley%E2%80%9D%2C%20licensed%20under%20%E2%80%9EFree%20for%20personal%20and%20commercial%20use%E2%80%9D%20(https%3A%2F%2Fbottts.com%2F)%3C%2Fdc%3Arights%3E%3C%2Frdf%3ADescription%3E%3C%2Frdf%3ARDF%3E%3C%2Fmetadata%3E%3Cmask%20id%3D%22viewboxMask%22%3E%3Crect%20width%3D%22120%22%20height%3D%22120%22%20rx%3D%220%22%20ry%3D%220%22%20x%3D%220%22%20y%3D%220%22%20fill%3D%22%23fff%22%20%2F%3E%3C%2Fmask%3E%3Cg%20mask%3D%22url(%23viewboxMask)%22%3E%3Crect%20fill%3D%22%2300897b%22%20width%3D%22120%22%20height%3D%22120%22%20x%3D%220%22%20y%3D%220%22%20%2F%3E%3Cg%20transform%3D%22translate(22%2068)%22%3E%3Crect%20x%3D%224%22%20y%3D%225%22%20width%3D%2268%22%20height%3D%2222%22%20rx%3D%225%22%20fill%3D%22%23000%22%20fill-opacity%3D%22.2%22%2F%3E%3Crect%20x%3D%228%22%20y%3D%229%22%20width%3D%2260%22%20height%3D%2214%22%20rx%3D%222%22%20fill%3D%22%23fff%22%2F%3E%3Cpath%20fill%3D%22%23000%22%20fill-opacity%3D%22.1%22%20d%3D%22M18%209h4v14h-4zM42%209h4v14h-4zM30%209h4v14h-4zM54%209h4v14h-4z%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate(8%2020)%22%3E%3Cpath%20d%3D%22M29.27%209.68c-2.55.13-4.96%202.24-6.25%204.15-1.48-1.76-4.1-3.6-6.65-3.47-5.48.28-8.85%203.8-8.63%208.1.3%205.72%204.88%208.89%209.7%2012.24%201.71%201.15%205%204.15%205.42%204.82.42.67%202.14.6%202.58-.13a37.8%2037.8%200%200%201%204.9-5.36c4.43-3.84%208.66-7.47%208.36-13.2-.23-4.3-3.95-7.44-9.43-7.15ZM87.63%2010.36c-2.55-.14-5.17%201.7-6.65%203.47-1.3-1.9-3.7-4.02-6.25-4.15-5.48-.29-9.2%202.86-9.43%207.16-.3%205.72%203.93%209.35%208.36%2013.19%201.6%201.32%204.55%204.64%204.9%205.36.35.7%202.06.82%202.58.13.51-.7%203.7-3.67%205.42-4.82%204.81-3.35%209.4-6.52%209.7-12.24.22-4.3-3.15-7.82-8.63-8.1Z%22%20fill%3D%22%23FF5353%22%20fill-opacity%3D%22.8%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E",
       name: "Real Score",
-      score: props.score,
+      score: props[0]?.score,
     },
     {
       avatar:
@@ -62,15 +62,15 @@ export default function LeaderBoard(props: ScoreProps) {
       </div>
       <ScrollArea>
         <div className="flex h-full w-full flex-col gap-3">
-          {mockData
-            .sort((a, b) => b.score - a.score)
+          {props
+            .sort((a, b) => b.score ?? 0 - (a.score ?? 0))
             .map((data, index) => {
               return (
                 <ScoreCard
                   key={index}
                   name={data.name}
                   avatar={data.avatar}
-                  score={data.score}
+                  score={data.score ?? 0}
                 />
               );
             })}
