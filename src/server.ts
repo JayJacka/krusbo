@@ -34,13 +34,14 @@ app.prepare().then(() => {
     const sessionID = socket.handshake.auth.sessionID;
     if (sessionID && sessionStore.has(sessionID)) {
       const session = sessionStore.get(sessionID);
+      usersNames.set(session.userID, name);
       socket.sessionID = sessionID;
       socket.userID = session.userID;
     } else {
       const newSessionID = randomUUID();
       const newUserID = randomUUID();
-      sessionStore.set(newSessionID, { userID: newUserID });
       usersNames.set(newUserID, name);
+      sessionStore.set(newSessionID, { userID: newUserID });
       socket.sessionID = newSessionID;
       socket.userID = newUserID;
     }
