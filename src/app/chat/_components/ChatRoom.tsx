@@ -22,11 +22,14 @@ export default function ChatRoom({
 	useEffect(() => {
 		socket.on("private message", (msg: Message) => {
 			console.log(msg, withUser);
-			if ((msg.from === withUser || msg.to === withUser) && (msg.from === socket.auth.userID || msg.to === socket.auth.userID)) {
+			if (
+				(msg.from === withUser || msg.to === withUser) &&
+				(msg.from === socket.auth.userID || msg.to === socket.auth.userID)
+			) {
 				setMessages((prev) => [...prev, msg]);
 			}
 		});
-		
+
 		return () => {
 			socket.off("private message");
 		};
@@ -36,10 +39,6 @@ export default function ChatRoom({
 
 	return (
 		<div className="flex h-full w-full flex-col gap-3">
-			<div className="bg-blue-100 flex w-full justify-between rounded-t-xl p-4 text-[32px] text-white">
-				{withUser}
-			</div>
-
 			<ScrollArea>
 				<div
 					ref={chatContainerRef}

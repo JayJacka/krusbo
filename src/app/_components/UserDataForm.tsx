@@ -53,7 +53,8 @@ export function UserDataForm() {
     if (props.avatar === "" || props.nickname === "") {
       return;
     }
-    await createUser.mutateAsync(props);
+    localStorage.setItem("name", props.nickname);
+    // await createUser.mutateAsync(props);
     router.push("/search");
   }
 
