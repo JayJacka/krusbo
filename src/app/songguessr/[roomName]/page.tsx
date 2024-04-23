@@ -102,7 +102,7 @@ export default function SongGuessr({
   const router = useRouter();
 
   const handleLeave = () => {
-    socket.emit("leave room", params.roomName);
+    socket.emit("leave room", params.roomName, userDataQuery.data?.id);
     router.push("/search");
   };
 
