@@ -38,11 +38,11 @@ export default function ChatRoom({
 	}, [withUser]);
 
 	const chatContainerRef = useRef<HTMLDivElement>(null);
-	useEffect(() => {
-		chatContainerRef.current?.scrollIntoView({
-			behavior: "smooth",
-		});
-	}, [messages]);
+	// useEffect(() => {
+	// 	chatContainerRef.current?.scrollIntoView({
+	// 		behavior: "smooth",
+	// 	});
+	// }, [messages]);
 
 	return (
 		<div className="flex h-full w-full flex-col gap-3">
