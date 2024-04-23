@@ -54,7 +54,7 @@ export function UserDataForm() {
       return;
     }
     localStorage.setItem("name", props.nickname);
-    // await createUser.mutateAsync(props);
+    await createUser.mutateAsync(props);
     router.push("/search");
   }
 
