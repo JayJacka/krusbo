@@ -22,7 +22,7 @@ export default function ChatRoom({
 	useEffect(() => {
 		socket.on("private message", (msg: Message) => {
 			console.log(msg, withUser);
-			if (msg.from === withUser || msg.to === withUser) {
+			if ((msg.from === withUser || msg.to === withUser) && (msg.from === socket.auth.userID || msg.to === socket.auth.userID)) {
 				setMessages((prev) => [...prev, msg]);
 			}
 		});
