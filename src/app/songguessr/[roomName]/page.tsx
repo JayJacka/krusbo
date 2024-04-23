@@ -154,6 +154,12 @@ export default function SongGuessr({
   });
 
   useEffect(() => {
+    if (gameStarted) {
+      setScore(0);
+    }
+  }, [gameStarted]);
+
+  useEffect(() => {
     socket.on(
       `users scores`,
       (
