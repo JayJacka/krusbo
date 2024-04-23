@@ -17,7 +17,7 @@ export default function CardGroup(data: GroupDetail) {
     <Link
       href={`../songguessr/${data.name}`}
       onClick={joinRoom}
-      className="flex h-[54px] cursor-pointer flex-row items-center justify-between rounded-lg bg-input px-3 py-2"
+      className="flex h-[54px] cursor-pointer flex-row items-center justify-between rounded-lg bg-input px-3 py-2 hover:bg-input/40"
     >
       <div className="h4 text-grey">{data.name}</div>
       <div className="flex flex-row items-center gap-2">
