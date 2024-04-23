@@ -15,16 +15,42 @@ import { UserCard } from "../_components/userCard";
 import EditProfileDialog from "./_components/EditProfileDialog";
 import { socket } from "~/socket";
 import { useEffect, useState } from "react";
-import { GroupDetail } from "./type";
+import { GroupDetail, UserDetail } from "./type";
 import Link from "next/link";
 import { api } from "~/trpc/react";
 
 export default function search() {
   const [allRooms, setAllRooms] = useState<GroupDetail[]>([]);
-
+  const [allUsers, setAllUsers] = useState<UserDetail[]>([]);
   useEffect(() => {
     socket.emit("get rooms");
   }, []);
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+  const [usersWithName, setUsersWithName] = useState<Map<string, string>>(
+    new Map(),
+  );
+
+  useEffect(() => {
+    socket.on(
+      "onlineUsers",
+      (users: { users: string[]; names: Map<string, string> }) => {
+        const temp = new Map();
+        users.users?.map((user) => {
+          users.names.forEach((name) => {
+            if (user === name[0]) {
+              console.log(name[1]);
+              temp.set(user, name[1]);
+            }
+          });
+        });
+        setUsersWithName(temp);
+        setOnlineUsers(users.users);
+      },
+    );
+    return () => {
+      socket.off("onlineUsers");
+    };
+  }, [socket]);
 
   useEffect(() => {
     socket.on("all rooms", (rooms: GroupDetail[]) => {
@@ -99,13 +125,23 @@ export default function search() {
         </div>
         <ScrollArea className="flex h-full w-full">
           <div className="flex h-full w-full flex-col gap-5">
-            {mockData.map((data) => {
-              return (
-                <Link href={`/chat/${data.id}`} key={data.id}>
-                  <UserCard index={data.id} name={data.name} key={data.id} />
-                </Link>
-              );
-            })}
+            {onlineUsers
+              ?.map((user) => {
+                return {
+                  username: usersWithName.get(user),
+                  id: user,
+                };
+              })
+              .map((data, index) => {
+                return (
+                  <UserCard
+                    index={index}
+                    userId={data.id}
+                    name={data.username ?? ""}
+                    key={data.id}
+                  />
+                );
+              })}
           </div>
         </ScrollArea>
       </div>

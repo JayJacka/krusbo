@@ -5,16 +5,16 @@ import { Socket, io } from "socket.io-client";
 let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
 
 if (typeof window !== "undefined") {
-	socket = io({
-		query: {
-			name: localStorage.getItem("name"),
-		},
-		auth: {
-			sessionID: localStorage.getItem("sessionID"),
-			userID: localStorage.getItem("userID"),
-		},
-	});
+  socket = io({
+    query: {
+      name: localStorage.getItem("name"),
+    },
+    auth: {
+      sessionID: localStorage.getItem("sessionID"),
+      userID: localStorage.getItem("userID"),
+    },
+  });
 } else {
-	socket = io();
+  socket = io();
 }
 export { socket };
