@@ -1,7 +1,7 @@
 "use client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { set, z } from "zod";
+import { z } from "zod";
 import AvatarRandom from "~/app/_components/AvatarRandom";
 import { Button } from "~/components/ui/button";
 import { DialogClose } from "~/components/ui/dialog";
@@ -11,6 +11,7 @@ import { api } from "~/trpc/react";
 
 export default function EditProfileForm() {
   const userData = api.auth.me.useQuery();
+  
   const formSchema = z.object({
     avatar: z.string(),
     nickname: z.string().min(2, {

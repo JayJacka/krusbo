@@ -12,7 +12,6 @@ import AvatarRandom from "./AvatarRandom";
 import { api } from "~/trpc/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { time } from "console";
 
 export function UserDataForm() {
   const router = useRouter();
@@ -54,7 +53,7 @@ export function UserDataForm() {
       return;
     }
     localStorage.setItem("name", props.nickname);
-    // await createUser.mutateAsync(props);
+    await createUser.mutateAsync(props);
     router.push("/search");
   }
 

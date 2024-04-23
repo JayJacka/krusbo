@@ -39,8 +39,8 @@ export default function SongGuessr({
   const [userScore, setUserScore] = useState<userScore[]>([]);
   const [userNameImage, setUserNameImage] = useState<userNameImage[]>([]);
   const [userData, setUserData] = useState<leaderProps[]>([]);
-  const userDataQuery = api.auth.me.useQuery();
   const [scoreChange, setScoreChange] = useState(0);
+  const userDataQuery = api.auth.me.useQuery();
 
   useEffect(() => {
     if (!userDataQuery.isLoading) {
@@ -76,6 +76,7 @@ export default function SongGuessr({
   }, []);
 
   const handleStart = () => {
+    console.log("Game Started")
     socket.emit("start game", selectedPlaylist, params.roomName);
     socket.emit(
       "send time target",

@@ -1,7 +1,8 @@
 "use client";
 
-import { io } from "socket.io-client";
-let socket;
+import { DefaultEventsMap } from "node_modules/socket.io/dist/typed-events";
+import { Socket, io } from "socket.io-client";
+let socket: Socket<DefaultEventsMap, DefaultEventsMap>;
 
 if (typeof window !== "undefined") {
 	socket = io({

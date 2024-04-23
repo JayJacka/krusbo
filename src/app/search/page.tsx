@@ -7,8 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEarthAmerica,
   faFire,
-  faMessage,
-  faRocket,
 } from "@fortawesome/free-solid-svg-icons";
 import CreateGroupDialog from "./_components/CreateGroupDialog";
 import CardGroup from "./_components/CardGroup";
@@ -19,6 +17,7 @@ import { socket } from "~/socket";
 import { useEffect, useState } from "react";
 import { GroupDetail } from "./type";
 import Link from "next/link";
+import { api } from "~/trpc/react";
 
 export default function search() {
   const [allRooms, setAllRooms] = useState<GroupDetail[]>([]);
@@ -35,6 +34,17 @@ export default function search() {
       socket.off("all rooms");
     };
   }, [socket]);
+
+  const userData = api.auth.me.useQuery();
+  if (userData.isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  socket.auth = { 
+    userID: userData.data?.id,
+    username: userData.data?.nickname,
+    avatar: userData.data?.avatar
+  };
 
   const mockData = [
     {

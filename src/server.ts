@@ -5,7 +5,6 @@ import { FetchSongPlaylist, RandomSong } from "./utils/randomSong";
 import { TrackDetail } from "./app/songguessr/type";
 import { ParsingRooms } from "./utils/parsingRoomDetail";
 import { randomUUID } from "node:crypto";
-import { config } from "./middleware";
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
@@ -28,23 +27,26 @@ const usersNames = new Map();
 app.prepare().then(() => {
 	const httpServer = createServer(handler);
 	const io = new Server(httpServer);
-
+	let username: string;
+	let userID: string;
 	io.use((socket, next) => {
-		const { name } = socket.handshake.query;
-
-		const sessionID = socket.handshake.auth.sessionID;
-		if (sessionID && sessionStore.has(sessionID)) {
-			const session = sessionStore.get(sessionID);
-			socket.sessionID = sessionID;
-			socket.userID = session.userID;
-		} else {
-			const newSessionID = randomUUID();
-			const newUserID = randomUUID();
-			sessionStore.set(newSessionID, { userID: newUserID });
-			usersNames.set(newUserID, name);
-			socket.sessionID = newSessionID;
-			socket.userID = newUserID;
-		}
+		username = socket.handshake.auth.username
+		userID = socket.handshake.auth.userID
+		console.log("user from client ja",userID, username)
+		// const { name } = socket.handshake.query;
+		// const sessionID = socket.handshake.auth.sessionID;
+		// if (sessionID && sessionStore.has(sessionID)) {
+		// 	const session = sessionStore.get(sessionID);
+		// 	socket.sessionID = sessionID;
+		// 	socket.userID = session.userID;
+		// } else {
+		// 	const newSessionID = randomUUID();
+		// 	const newUserID = randomUUID();
+		// 	sessionStore.set(newSessionID, { userID: newUserID });
+		// 	usersNames.set(newUserID, name);
+		// 	socket.sessionID = newSessionID;
+		// 	socket.userID = newUserID;
+		// }
 		next();
 	});
 
@@ -63,10 +65,10 @@ app.prepare().then(() => {
 			}
 
 			const usersInRoom = allUsers.get(room)!;
-			if (usersInRoom.includes(socket.id)) {
+			if (usersInRoom.includes(username)) {
 				return;
 			}
-			usersInRoom.push(socket.id);
+			usersInRoom.push(username);
 			socket.join(room);
 
 			const rooms = ParsingRooms(allUsers);
@@ -76,7 +78,7 @@ app.prepare().then(() => {
 		socket.on("leave room", (room: string) => {
 			if (allUsers.has(room)) {
 				const usersInRoom = allUsers.get(room)!;
-				const index = usersInRoom.indexOf(socket.id);
+				const index = usersInRoom.indexOf(username);
 				if (index !== -1) {
 					usersInRoom.splice(index, 1);
 				}
@@ -89,7 +91,7 @@ app.prepare().then(() => {
 				// Create the room
 				socket.join(roomName);
 				console.log(`Room "${roomName}" created`);
-				allUsers.set(roomName, [socket.id]);
+				allUsers.set(roomName, [username]);
 
 				const rooms = ParsingRooms(allUsers);
 				socket.emit("all rooms", rooms);
