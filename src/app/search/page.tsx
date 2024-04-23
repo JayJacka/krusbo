@@ -22,7 +22,10 @@ import Link from "next/link";
 
 export default function search() {
   const [allRooms, setAllRooms] = useState<GroupDetail[]>([]);
-
+  const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
+  const [usersWithName, setUsersWithName] = useState<Map<string, string>>(
+    new Map<string, string>(),
+  );
   useEffect(() => {
     socket.emit("get rooms");
   }, []);
@@ -36,44 +39,28 @@ export default function search() {
     };
   }, [socket]);
 
-  const mockData = [
-    {
-      id: 1,
-      name: "Bow",
-    },
-    {
-      id: 2,
-      name: "Jay",
-    },
-    {
-      id: 3,
-      name: "Faii",
-    },
-    {
-      id: 4,
-      name: "Win",
-    },
-    {
-      id: 5,
-      name: "Ploy",
-    },
-    {
-      id: 6,
-      name: "Pim",
-    },
-    {
-      id: 7,
-      name: "Pim",
-    },
-    {
-      id: 8,
-      name: "Pim",
-    },
-    {
-      id: 9,
-      name: "Pim",
-    },
-  ];
+  useEffect(() => {
+    socket.on(
+      "onlineUsers",
+      (users: { users: string[]; names: Map<string, string> }) => {
+        const temp = new Map();
+        users.users?.map((user) => {
+          users.names.forEach((name) => {
+            if (user === name[0]) {
+              console.log(name[1]);
+              temp.set(user, name[1]);
+            }
+          });
+        });
+        setUsersWithName(temp);
+        setOnlineUsers(users.users);
+
+        return () => {
+          socket.off("onlineUsers");
+        };
+      },
+    );
+  }, []);
 
   return (
     <div className="flex h-screen w-screen flex-row gap-11 bg-primary p-9">
@@ -89,13 +76,25 @@ export default function search() {
         </div>
         <ScrollArea className="flex h-full w-full">
           <div className="flex h-full w-full flex-col gap-5">
-            {mockData.map((data) => {
-              return (
-                <Link href={`/chat/${data.id}`} key={data.id}>
-                  <UserCard index={data.id} name={data.name} key={data.id} />
-                </Link>
-              );
-            })}
+            {onlineUsers
+              ?.map((user) => {
+                return {
+                  username: usersWithName.get(user),
+                  id: user,
+                };
+              })
+              .map((data, index) => {
+                return (
+                  <Link href={`/chat/${data.id}`} key={data.id}>
+                    <UserCard
+                      index={index}
+                      name={data.username ?? ""}
+                      id={data.id}
+                      key={data.id}
+                    />
+                  </Link>
+                );
+              })}
           </div>
         </ScrollArea>
       </div>
