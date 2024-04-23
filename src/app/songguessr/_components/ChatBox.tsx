@@ -10,15 +10,16 @@ export function ChatBox({ room }: { room: string }) {
   const [messages, setMessages] = useState<GroupMessage[]>([]);
   const userData = api.auth.me.useQuery();
   const chatContainerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    chatContainerRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  },[messages])
 
   useEffect(() => {
     socket.on("group message", (msg: GroupMessage) => {
       console.log(msg);
       setMessages((prev) => [...prev, msg]);
-    });
-
-    chatContainerRef.current?.scrollIntoView({
-      behavior: "smooth",
     });
 
     return () => {
@@ -29,8 +30,7 @@ export function ChatBox({ room }: { room: string }) {
   return (
     <div className="flex w-full flex-col gap-3">
       <ScrollArea
-        ref={chatContainerRef}
-        className="flex min-h-[520px] w-full flex-col gap-8 overflow-y-auto bg-blue-200 px-6 py-4"
+        className="flex max-h-40 min-h-40 flex-1 flex-col gap-8 overflow-y-auto bg-blue-200 px-6 py-4"
       >
         {messages.map((message) => (
           <MessageCard
@@ -41,6 +41,7 @@ export function ChatBox({ room }: { room: string }) {
             message={message.content}
           />
         ))}
+        <div ref={chatContainerRef}/>
       </ScrollArea>
       <ChatInput room={room} />
     </div>
