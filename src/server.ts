@@ -5,7 +5,6 @@ import { FetchSongPlaylist, RandomSong } from "./utils/randomSong";
 import { TrackDetail } from "./app/songguessr/type";
 import { ParsingRooms } from "./utils/parsingRoomDetail";
 import { randomUUID } from "node:crypto";
-import { config } from "./middleware";
 
 const dev = process.env.NODE_ENV !== "production";
 const hostname = "localhost";
@@ -104,10 +103,6 @@ app.prepare().then(() => {
 		socket.on("get rooms", () => {
 			const rooms = ParsingRooms(allUsers);
 			socket.emit("all rooms", rooms);
-		});
-
-		socket.on("send group message", ({ room, message }) => {
-			io.to(room).emit("message", message);
 		});
 
 		socket.on("get users in room", (room) => {
@@ -290,10 +285,13 @@ app.prepare().then(() => {
 			io.to(room).emit("choices", choices);
 		});
 
-		socket.on("send group message", (content: string, room: string) => {
+		socket.on("send group message", (avatar:string, username:string, content: string, room: string) => {
 			const message = {
 				content: content,
-				from: socket.id,
+				from: {
+					username: username,
+					avatar: avatar,
+				},
 				room: room,
 				id: randomUUID(),
 			};

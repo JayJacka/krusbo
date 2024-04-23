@@ -1,13 +1,15 @@
 import { useState } from "react";
 import { Input } from "~/components/ui/input";
 import { socket } from "~/socket";
+import { api } from "~/trpc/react";
 
 export default function ChatInput({ room }: { room: string }) {
 	const [message, setMessage] = useState("");
-
+	const userData = api.auth.me.useQuery();
+	
 	function sendMessage() {
         console.log(message, room)
-		socket.emit("send group message", message, room);
+		socket.emit("send group message", userData.data?.avatar, userData.data?.nickname, message, room);
 		setMessage("");
 	}
 	return (

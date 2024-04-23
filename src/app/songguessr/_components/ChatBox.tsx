@@ -4,13 +4,16 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import ChatInput from "./ChatInput";
 import MessageCard from "~/app/_components/MessageCard";
 import { socket } from "~/socket";
+import { api } from "~/trpc/react";
 
 export function ChatBox({ room }: { room: string }) {
   const [messages, setMessages] = useState<GroupMessage[]>([]);
+  const userData = api.auth.me.useQuery();
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     socket.on("group message", (msg: GroupMessage) => {
+      console.log(msg)
       setMessages((prev) => [...prev, msg]);
     });
 
@@ -32,7 +35,9 @@ export function ChatBox({ room }: { room: string }) {
         {messages.map((message) => (
           <MessageCard
             key={message.id}
-            isMe={message.from === socket.id}
+            avatar={message.from.avatar}
+            name = {message.from.username}
+            isMe={message.from.username === userData.data?.nickname}
             message={message.content}
           />
         ))}

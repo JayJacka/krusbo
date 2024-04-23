@@ -80,7 +80,12 @@ export type leaderProps = {
 
 export type GroupMessage = {
   content: string;
-  from: string;
+  from: Sender;
   room: string;
   id: string;
 };
+
+type Sender = {
+  username: string,
+  avatar: string
+}

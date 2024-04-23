@@ -1,16 +1,15 @@
-interface Message {
-  id: number;
-  sender: string;
-  content: string;
-  timestamp: string;
+type MessageCardProp = {
+  name: string,
+  avatar: string,
+  isMe: boolean,
+  message: string,
 }
 export default function MessageCard({
+  name,
+  avatar,
   isMe,
   message,
-}: {
-  isMe: boolean;
-  message: string;
-}) {
+}: MessageCardProp) {
   return (
     <div
       className={`flex w-full items-end gap-5 ${
@@ -19,7 +18,7 @@ export default function MessageCard({
     >
       <img
         alt="profile"
-        src="https://api.dicebear.com/8.x/bottts-neutral/svg?seed=Boots"
+        src={avatar}
         height={26}
         width={26}
         className="py-2"
@@ -30,10 +29,15 @@ export default function MessageCard({
         }`}
       >
         <div
-          className={`flex items-center gap-2 ${
+          className={`flex flex-col ${
             !isMe ? "justify-start" : "justify-end"
           }`}
         >
+          <div
+            className={`text-[20px] text-white`}
+          >
+            {name}
+          </div>
           <div
             className={`text-[20px] ${!isMe ? "text-blue" : "text-yellow"} `}
           >
