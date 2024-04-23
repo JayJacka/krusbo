@@ -9,7 +9,7 @@ export default function LeaderBoard({ props }: { props: leaderProps[] }) {
   });
 
   return (
-    <div className="flex h-2/5 w-4/5 flex-col gap-3 self-center rounded-lg bg-secondary p-4">
+    <div className="flex min-h-[520px] w-4/5 flex-col gap-3 self-center rounded-lg bg-secondary p-4">
       <div className="flex w-full flex-row items-center justify-center gap-[10px]">
         <FontAwesomeIcon
           icon={faRankingStar}

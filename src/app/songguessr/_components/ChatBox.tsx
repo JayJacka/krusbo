@@ -13,7 +13,7 @@ export function ChatBox({ room }: { room: string }) {
 
   useEffect(() => {
     socket.on("group message", (msg: GroupMessage) => {
-      console.log(msg)
+      console.log(msg);
       setMessages((prev) => [...prev, msg]);
     });
 
@@ -30,13 +30,13 @@ export function ChatBox({ room }: { room: string }) {
     <div className="flex w-full flex-col gap-3">
       <ScrollArea
         ref={chatContainerRef}
-        className="flex max-h-40 min-h-40 flex-1 flex-col gap-8 overflow-y-auto bg-blue-200 px-6 py-4"
+        className="flex min-h-[520px] w-full flex-col gap-8 overflow-y-auto bg-blue-200 px-6 py-4"
       >
         {messages.map((message) => (
           <MessageCard
             key={message.id}
             avatar={message.from.avatar}
-            name = {message.from.username}
+            name={message.from.username}
             isMe={message.from.username === userData.data?.nickname}
             message={message.content}
           />

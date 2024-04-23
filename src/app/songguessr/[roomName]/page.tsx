@@ -244,17 +244,12 @@ export default function SongGuessr({
           <div className="h4 flex justify-center p-[10px]">BallRoom</div>
           <FontAwesomeIcon
             icon={faRightFromBracket}
-            className="flex items-center text-red"
+            className="flex items-center text-grey"
             width={32}
             height={32}
           />
         </Button>
         {<LeaderBoard props={userData} />}
-        <div className="w-full p-8">
-          <div className="flex max-w-96 justify-start">
-            <ChatBox room={params.roomName} />
-          </div>
-        </div>
       </div>
       <div className="flex h-screen w-1/2 flex-col items-center justify-center ">
         <div className="text-white">score: {score}</div>
@@ -312,7 +307,11 @@ export default function SongGuessr({
             ))}
         </div>
       </div>
-      <div className="flex w-1/4 text-white">Member</div>
+      <div className="w-1/4 self-center p-8">
+        <div className="flex w-full justify-center">
+          <ChatBox room={params.roomName} />
+        </div>
+      </div>
     </div>
   );
 }
