@@ -32,10 +32,8 @@ export function RoomList({ pagePathName }: { pagePathName: string }) {
     return () => {
       socket.off("onlineUsers");
     }
-      }, []);
-
-	
-});
+      })}, []);
+	  
 	const page = pagePathName.split("/")[1];
 	console.log(pagePathName, page);
 	const router = useRouter();

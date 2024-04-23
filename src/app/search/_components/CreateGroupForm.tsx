@@ -1,3 +1,4 @@
+"use client"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -7,11 +8,13 @@ import { DialogClose } from "~/components/ui/dialog";
 import { Form, FormControl, FormField, FormItem } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { socket } from "~/socket";
+import { useRouter } from "next/navigation";
 
 type CreateGroupFormProps = {
     closeDialog: () => void;
 }
 export default function CreateGroupForm({closeDialog}: CreateGroupFormProps) {
+    const router = useRouter()
     const formSchema = z.object({
         groupName: z.string(),
       });
@@ -25,6 +28,8 @@ export default function CreateGroupForm({closeDialog}: CreateGroupFormProps) {
 
     function onSubmit(data: z.infer<typeof formSchema>) {
         socket.emit('create room', data.groupName);
+        console.log("submit")
+        router.push(`/songguessr/${data.groupName}`)
         closeDialog()
     }
     

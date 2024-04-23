@@ -3,8 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { type GroupDetail } from "../type";
 import { socket } from "~/socket";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function CardGroup(data: GroupDetail) {
+  const router = useRouter();
   function joinRoom() {
     socket.emit('join room', data.name);
   }
