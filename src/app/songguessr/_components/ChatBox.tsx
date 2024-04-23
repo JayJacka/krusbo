@@ -30,7 +30,12 @@ export function ChatBox({ room }: { room: string }) {
   return (
     <div className="flex w-full flex-col gap-3">
       <ScrollArea
+<<<<<<< HEAD
         className="flex max-h-40 min-h-40 flex-1 flex-col gap-8 overflow-y-auto bg-blue-200 px-6 py-4"
+=======
+        ref={chatContainerRef}
+        className="flex h-[520px] w-full flex-col gap-8 overflow-y-auto bg-blue-200 px-6 py-4"
+>>>>>>> 4e70430 (fix: fix group chat)
       >
         {messages.map((message) => (
           <MessageCard

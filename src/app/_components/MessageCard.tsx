@@ -12,7 +12,7 @@ export default function MessageCard({
 }: MessageCardProp) {
   return (
     <div
-      className={`mx-auto flex w-full items-end gap-5 ${
+      className={`flex w-full items-start gap-5 ${
         !isMe ? "flex-row" : "flex-row-reverse"
       }`}
     >
@@ -26,14 +26,14 @@ export default function MessageCard({
           className={`flex w-fit flex-col ${!isMe ? "justify-start" : "justify-end"}`}
         >
           <div
-            className={`flex w-fit text-[20px] text-white ${
+            className={`w-f๊ull flex text-[20px] text-white ${
               !isMe ? "justify-start" : "justify-end"
             }`}
           >
             {name}
           </div>
           <div
-            className={`w-fit break-words text-[20px] ${!isMe ? "text-blue" : "text-yellow"} `}
+            className={`max-w-[120px] break-words text-[20px] ${!isMe ? "text-blue" : "text-yellow"} `}
           >
             {message}
           </div>
