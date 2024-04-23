@@ -244,7 +244,7 @@ export default function SongGuessr({
     <div className="flex flex-row justify-between bg-primary">
       <div className="flex w-1/4 flex-col gap-8 text-white">
         <Button
-          className="h4 ml-10 mt-10 flex h-10 w-3/5 flex-row gap-1"
+          className="h4  mr-auto mt-10 flex h-10 w-3/5 flex-row gap-1"
           onClick={handleLeave}
         >
           <div className="h4 flex justify-center p-[10px]">BallRoom</div>
@@ -271,7 +271,7 @@ export default function SongGuessr({
           {!gameStarted && (
             <Button
               disabled={selectedPlaylist == ""}
-              className="w-fit bg-pink text-white"
+              className="w-fit bg-pink text-white hover:bg-pink/40"
               onClick={handleStart}
             >
               Start Game
