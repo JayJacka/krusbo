@@ -11,6 +11,8 @@ export type Message = {
 	from: string;
 	to: string;
 	id: string;
+	name: string;
+	avatar: string;
 };
 export default function ChatRoom({
 	withUser,
@@ -36,22 +38,27 @@ export default function ChatRoom({
 	}, [withUser]);
 
 	const chatContainerRef = useRef<HTMLDivElement>(null);
+	useEffect(() => {
+		chatContainerRef.current?.scrollIntoView({
+			behavior: "smooth",
+		});
+	}, [messages]);
 
 	return (
 		<div className="flex h-full w-full flex-col gap-3">
 			<ScrollArea>
-				<div
-					ref={chatContainerRef}
-					className="bg-blue-200 flex flex-1 flex-col gap-8 overflow-y-auto px-6 py-4"
-				>
+				<div className="bg-blue-200 flex flex-1 flex-col gap-8 overflow-y-auto px-6 py-4 h-screen">
 					{messages.map((message) => (
 						<MessageCard
 							key={message.id}
 							isMe={message.from !== withUser}
 							message={message.content}
+							name={message.name}
+							avatar={message.avatar}
 						/>
 					))}
 				</div>
+				<div ref={chatContainerRef} />
 			</ScrollArea>
 			<ChatInput withUser={withUser} />
 		</div>

@@ -317,13 +317,16 @@ app.prepare().then(() => {
 
     socket.on(
       "private message",
-      (arg: { content: string; to: string; from: string }) => {
+      (arg: { content: string; to: string; from: string, name: string, avatar: string }) => {
         const message = {
           content: arg.content,
           from: socket.userID,
           to: arg.to,
+		  name: arg.name,
+		  avatar: arg.avatar,
           id: randomUUID(),
         };
+		console.log(message)
         io.emit("private message", message);
       },
     );

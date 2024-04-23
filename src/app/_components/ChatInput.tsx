@@ -1,14 +1,18 @@
 import { useState } from "react";
 import { Input } from "~/components/ui/input";
 import { socket } from "~/socket";
+import { api } from "~/trpc/react";
 
 export default function ChatInput({ withUser }: { withUser: string }) {
 	const [message, setMessage] = useState("");
-
+	const userData = api.auth.me.useQuery();
 	function sendMessage() {
+		console.log(userData.data)
 		socket.emit("private message", {
 			content: message,
 			to: withUser,
+			name: userData.data?.nickname,
+			avatar: userData.data?.avatar,
 		});
 		setMessage("");
 	}
