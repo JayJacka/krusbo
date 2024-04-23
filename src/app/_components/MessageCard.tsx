@@ -13,7 +13,7 @@ export default function MessageCard({
 }) {
   return (
     <div
-      className={`flex w-full items-start gap-5 ${
+      className={`flex w-full items-end gap-5 ${
         !isMe ? "flex-row" : "flex-row-reverse"
       }`}
     >
