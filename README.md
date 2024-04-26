@@ -4,4 +4,4 @@
 
 ## What is Krusbo?
 
-Krusbo is a simple chat application that allows users to chat with each other in real-time. It is built using Next.js, Socket.IO, tRPC, and Prisma.
+Krusbo is a simple chat application that allows users to chat with each other in real-time and has a song guesser mini-game. It is built using Next.js, Socket.IO, tRPC, and Prisma.
